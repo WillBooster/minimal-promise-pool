@@ -8,7 +8,7 @@ test('PromisePool', async () => {
   cancelled = false;
   setTimeout(() => {
     cancelled = true;
-  }, 2000);
+  }, 3000);
 
   await promisePool.run(async () => {
     startedCount++;
@@ -32,7 +32,7 @@ test('PromisePool', async () => {
 
 let cancelled = false;
 async function heavyTask(): Promise<boolean> {
-  for (let i = 0; i < 15; i++) {
+  for (let i = 0; i < 25; i++) {
     if (cancelled) return false;
     await sleep(100);
   }

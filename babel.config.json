@@ -1,0 +1,14 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": "usage",
+        "corejs": "3.18",
+        "bugfixes": true
+      }
+    ],
+    "@babel/typescript"
+  ],
+  "plugins": ["@babel/proposal-class-properties", "@babel/proposal-numeric-separator"]
+}

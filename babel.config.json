@@ -3,8 +3,7 @@
     [
       "@babel/preset-env",
       {
-        "useBuiltIns": "usage",
-        "corejs": "3.18",
+        "useBuiltIns": false,
         "bugfixes": true
       }
     ],

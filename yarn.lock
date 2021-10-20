@@ -3506,13 +3506,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:3.18.3":
-  version: 3.18.3
-  resolution: "core-js@npm:3.18.3"
-  checksum: 4aa5017992c18b0a09ded6c7dbf3c3880b27b6ade97a522dba332f52381466978d441317e5aad49f0684e9241aecc450e3e72c550ddaccfc9fb1e69c5908e53c
-  languageName: node
-  linkType: hard
-
 "core-util-is@npm:1.0.2":
   version: 1.0.2
   resolution: "core-util-is@npm:1.0.2"
@@ -6837,7 +6830,6 @@ __metadata:
     "@willbooster/prettier-config": 6.4.0
     "@willbooster/renovate-config": 6.4.0
     babel-jest: 27.2.5
-    core-js: 3.18.3
     eslint: 8.0.1
     eslint-config-prettier: 8.3.0
     eslint-import-resolver-node: 0.3.6

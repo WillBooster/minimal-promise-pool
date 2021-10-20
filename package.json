@@ -10,7 +10,7 @@
   "repository": "git@github.com:WillBooster/minimal-promise-pool.git",
   "license": "Apache-2.0",
   "author": "WillBooster Inc.",
-  "main": "dist/index.umd.min.js",
+  "main": "dist/index.min.cjs",
   "module": "dist/index.min.mjs",
   "types": "dist/src/index.d.ts",
   "files": [

@@ -13,9 +13,8 @@ export default {
       sourcemap: true,
     },
     {
-      file: 'dist/index.umd.min.js',
-      format: 'umd',
-      name: 'promisePool',
+      file: 'dist/index.min.cjs',
+      format: 'commonjs',
       sourcemap: true,
     },
   ],

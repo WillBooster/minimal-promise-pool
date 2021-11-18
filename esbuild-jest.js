@@ -5,9 +5,9 @@ const package = require(path.resolve('package.json'));
 
 const external = [
   ...builtinModules,
-  ...Object.keys(package.dependencies ?? {}),
-  ...Object.keys(package.devDependencies ?? {}),
-  ...Object.keys(package.peerDependencies ?? {}),
+  ...Object.keys(package.dependencies || {}),
+  ...Object.keys(package.devDependencies || {}),
+  ...Object.keys(package.peerDependencies || {}),
 ];
 
 module.exports = {

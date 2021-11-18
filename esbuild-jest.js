@@ -29,6 +29,7 @@ function buildCode(filename) {
     minify: false,
     outdir: './dist',
     sourcemap: true,
+    target: 'node12',
     write: false,
   });
   // Try cleaning-up workers in esbuild

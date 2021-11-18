@@ -10,6 +10,7 @@ Promise.all([
     outfile: 'dist/index.min.mjs',
     plugins: [dtsPlugin()],
     sourcemap: true,
+    target: 'node12',
   }),
   build({
     bundle: true,
@@ -18,5 +19,6 @@ Promise.all([
     minify: true,
     outfile: 'dist/index.min.cjs',
     sourcemap: true,
+    target: 'node12',
   }),
 ]).then();

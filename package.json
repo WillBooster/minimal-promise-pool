@@ -40,9 +40,9 @@
     "@willbooster/eslint-config-ts": "6.4.2",
     "@willbooster/prettier-config": "6.4.0",
     "@willbooster/renovate-config": "6.4.2",
-    "esbuild": "0.13.14",
+    "esbuild": "0.13.15",
     "esbuild-plugin-d.ts": "1.0.6",
-    "eslint": "8.2.0",
+    "eslint": "8.3.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-import-resolver-node": "0.3.6",
     "eslint-plugin-import": "2.25.3",
@@ -51,13 +51,13 @@
     "lint-staged": "11.2.6",
     "micromatch": "4.0.4",
     "pinst": "2.1.6",
-    "prettier": "2.4.1",
-    "semantic-release": "18.0.0",
+    "prettier": "2.5.0",
+    "semantic-release": "18.0.1",
     "sort-package-json": "1.53.1",
     "typescript": "4.5.2"
   },
   "engines": {
     "node": ">=12"
   },
-  "packageManager": "yarn@3.1.0"
+  "packageManager": "yarn@3.2.0-rc.6"
 }

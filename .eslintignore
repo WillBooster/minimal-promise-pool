@@ -236,6 +236,9 @@ fabric.properties
 .history
 .ionide
 
+# Support for Project snippet scope
+!.vscode/*.code-snippets
+
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode
 
 # Created by https://www.toptal.com/developers/gitignore/api/emacs
@@ -466,5 +469,11 @@ dist
 ### Node Patch ###
 # Serverless Webpack directories
 .webpack/
+
+# Optional stylelint cache
+.stylelintcache
+
+# SvelteKit build / generate output
+.svelte-kit
 
 # End of https://www.toptal.com/developers/gitignore/api/node

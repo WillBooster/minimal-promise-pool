@@ -12,7 +12,7 @@
   "author": "WillBooster Inc.",
   "main": "dist/index.min.cjs",
   "module": "dist/index.min.mjs",
-  "types": "dist/src/index.d.ts",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/"
   ],

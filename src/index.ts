@@ -1,32 +1,27 @@
 export class PromisePool<T = unknown> {
   private readonly concurrency: number;
-  private readonly promises: Promise<T>[];
+  private readonly promises: Map<number, Promise<T>>;
   private nextIndex: number;
 
   constructor(concurrency = 10) {
     this.concurrency = concurrency;
-    this.promises = Array(concurrency);
+    this.promises = new Map();
     this.nextIndex = 0;
   }
 
   promiseAll(): Promise<T[]> {
-    return Promise.all(this.promises);
+    return Promise.all(this.promises.values());
   }
 
   async run(startPromise: () => Promise<T>): Promise<void> {
-    while (this.nextIndex >= this.concurrency) {
+    while (this.promises.size >= this.concurrency) {
       await sleep(1);
     }
     const index = this.nextIndex++;
-    this.promises[index] = startPromise();
-    (async () => {
-      await this.promises[index];
-      this.nextIndex--;
-      const lastPromise = this.promises[this.nextIndex];
-      if (lastPromise && index < this.nextIndex) {
-        this.promises[index] = lastPromise;
-      }
-    })().then();
+    this.promises.set(
+      index,
+      startPromise().finally(() => this.promises.delete(index))
+    );
   }
 }
 

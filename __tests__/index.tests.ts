@@ -6,11 +6,15 @@ test('run three heavy tasks', async () => {
   let finishedCount = 0;
 
   await promisePool.run(async () => {
+    expect(finishedCount).toBe(0);
+
     startedCount++;
     await sleep(1000);
     finishedCount++;
   });
   await promisePool.run(async () => {
+    expect(finishedCount).toBe(0);
+
     startedCount++;
     await sleep(1000);
     finishedCount++;
@@ -18,10 +22,12 @@ test('run three heavy tasks', async () => {
   await promisePool.run(async () => {
     expect(startedCount).toBe(2);
     expect(finishedCount).toBe(2);
+
     startedCount++;
     await sleep(1000);
     finishedCount++;
   });
+  await promisePool.promiseAll();
 
   expect(startedCount).toBe(3);
   expect(finishedCount).toBe(3);

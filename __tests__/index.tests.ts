@@ -5,32 +5,30 @@ test('run three heavy tasks', async () => {
   let startedCount = 0;
   let finishedCount = 0;
 
-  await promisePool.run(async () => {
-    expect(finishedCount).toBe(0);
+  for (let i = 0; i < 2; i++) {
+    await promisePool.run(async () => {
+      expect([0, 1]).toEqual(expect.arrayContaining([startedCount]));
+      expect(finishedCount).toBe(0);
 
-    startedCount++;
-    await sleep(1000);
-    finishedCount++;
-  });
-  await promisePool.run(async () => {
-    expect(finishedCount).toBe(0);
+      startedCount++;
+      await sleep(1000);
+      finishedCount++;
 
-    startedCount++;
-    await sleep(1000);
-    finishedCount++;
-  });
+      expect([2, 3]).toEqual(expect.arrayContaining([startedCount]));
+      expect([1, 2]).toEqual(expect.arrayContaining([finishedCount]));
+    });
+  }
   await promisePool.run(async () => {
     expect(startedCount).toBe(2);
-    expect(finishedCount).toBe(2);
+    expect([1, 2]).toEqual(expect.arrayContaining([finishedCount]));
 
     startedCount++;
     await sleep(1000);
     finishedCount++;
-  });
-  await promisePool.promiseAll();
 
-  expect(startedCount).toBe(3);
-  expect(finishedCount).toBe(3);
+    expect(startedCount).toBe(3);
+    expect(finishedCount).toBe(3);
+  });
 });
 
 test('run one heavy and three light tasks', async () => {

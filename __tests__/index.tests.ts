@@ -29,7 +29,10 @@ test('run three heavy tasks', async () => {
     expect(startedCount).toBe(3);
     expect(finishedCount).toBe(3);
   });
+
   await promisePool.promiseAll();
+  expect(startedCount).toBe(3);
+  expect(finishedCount).toBe(3);
 });
 
 test('run one heavy and three light tasks', async () => {
@@ -67,8 +70,8 @@ test('run one heavy and three light tasks', async () => {
     startedCount++;
     finishedCount++;
   });
-  await promisePool.promiseAll();
 
+  await promisePool.promiseAll();
   expect(startedCount).toBe(4);
   expect(finishedCount).toBe(4);
 });

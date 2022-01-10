@@ -14,4 +14,4 @@ jobs:
   test:
     uses: WillBooster/reusable-workflows/.github/workflows/test.yml@main
     with:
-      non-self-hosted: true
+      non_self_hosted: true

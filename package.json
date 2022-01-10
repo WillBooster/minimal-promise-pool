@@ -31,7 +31,7 @@
   },
   "prettier": "@willbooster/prettier-config",
   "devDependencies": {
-    "@types/eslint": "7.29.0",
+    "@types/eslint": "8.2.2",
     "@types/jest": "27.4.0",
     "@types/micromatch": "4.0.2",
     "@types/prettier": "2.4.2",

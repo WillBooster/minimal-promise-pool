@@ -8,7 +8,7 @@ test('three heavy tasks', async () => {
   cancelled = false;
   setTimeout(() => {
     cancelled = true;
-  }, 4000);
+  }, 4500);
 
   await promisePool.run(async () => {
     startedCount++;

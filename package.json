@@ -40,6 +40,7 @@
     "@willbooster/eslint-config-ts": "6.5.0",
     "@willbooster/prettier-config": "6.5.0",
     "@willbooster/renovate-config": "6.5.0",
+    "conventional-changelog-conventionalcommits": "4.6.3",
     "esbuild": "0.14.10",
     "esbuild-plugin-d.ts": "1.1.0",
     "eslint": "8.6.0",

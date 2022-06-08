@@ -1,0 +1,8 @@
+name: Test Merge
+on:
+  workflow_dispatch:
+jobs:
+  test-merge:
+    uses: WillBooster/reusable-workflows/.github/workflows/wbfy-merge.yml@merge
+    secrets:
+      GH_TOKEN: ${{ secrets.PUBLIC_GH_BOT_PAT }}

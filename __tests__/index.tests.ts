@@ -75,3 +75,16 @@ test('run one heavy and three light tasks', async () => {
   expect(startedCount).toBe(4);
   expect(finishedCount).toBe(4);
 });
+
+test('run 1000 light tasks', async () => {
+  const promisePool = new PromisePool(2);
+  let count = 0;
+  for (let i = 0; i < 1000; i++) {
+    await promisePool.run(async () => {
+      await sleep(0);
+      count++;
+    });
+  }
+  await promisePool.promiseAll();
+  expect(count).toBe(1000);
+}, 10000);

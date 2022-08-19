@@ -1,12 +1,10 @@
 export class PromisePool<T = unknown> {
   private readonly concurrency: number;
-  private readonly promises: Map<number, Promise<T>>;
-  private nextIndex: number;
+  private readonly promises: Set<Promise<T>>;
 
   constructor(concurrency = 10) {
     this.concurrency = concurrency;
-    this.promises = new Map();
-    this.nextIndex = 0;
+    this.promises = new Set();
   }
 
   promiseAll(): Promise<T[]> {
@@ -17,11 +15,8 @@ export class PromisePool<T = unknown> {
     while (this.promises.size >= this.concurrency) {
       await sleep(1);
     }
-    const index = this.nextIndex++;
-    this.promises.set(
-      index,
-      startPromise().finally(() => this.promises.delete(index))
-    );
+    const promise = startPromise().finally(() => this.promises.delete(promise));
+    this.promises.add(promise);
   }
 }
 

@@ -87,4 +87,4 @@ test('run 1000 light tasks', async () => {
   }
   await promisePool.promiseAll();
   expect(count).toBe(1000);
-}, 10000);
+}, 10_000);

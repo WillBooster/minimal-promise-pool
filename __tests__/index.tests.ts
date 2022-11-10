@@ -88,3 +88,57 @@ test('run 1000 light tasks', async () => {
   await promisePool.promiseAll();
   expect(count).toBe(1000);
 }, 10000);
+
+test('reduce concurrency during task', async () => {
+  const promisePool = new PromisePool(3);
+  let startedCount = 0;
+  let finishedCount = 0;
+
+  for (let i = 1; i <= 3; i++) {
+    await promisePool.run(async () => {
+      startedCount++;
+      await sleep(1000 * i);
+      finishedCount++;
+    });
+  }
+  expect(startedCount).toBe(3);
+  expect(finishedCount).toBe(0);
+
+  promisePool.setConcurrency(2);
+  await promisePool.run(async () => {
+    expect(finishedCount).toBe(2);
+    startedCount++;
+    await sleep(0);
+    finishedCount++;
+  });
+  await promisePool.promiseAll();
+  expect(startedCount).toBe(4);
+  expect(finishedCount).toBe(4);
+});
+
+test('increase concurrency during task', async () => {
+  const promisePool = new PromisePool(2);
+  let startedCount = 0;
+  let finishedCount = 0;
+
+  for (let i = 1; i <= 2; i++) {
+    await promisePool.run(async () => {
+      startedCount++;
+      await sleep(1000 * i);
+      finishedCount++;
+    });
+  }
+  expect(startedCount).toBe(2);
+  expect(finishedCount).toBe(0);
+
+  promisePool.setConcurrency(3);
+  await promisePool.run(async () => {
+    expect(finishedCount).toBe(0);
+    startedCount++;
+    await sleep(0);
+    finishedCount++;
+  });
+  await promisePool.promiseAll();
+  expect(startedCount).toBe(3);
+  expect(finishedCount).toBe(3);
+});

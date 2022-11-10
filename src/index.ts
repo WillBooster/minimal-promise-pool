@@ -1,5 +1,5 @@
 export class PromisePool<T = unknown> {
-  private readonly concurrency: number;
+  private concurrency: number;
   private readonly promises: Set<Promise<T>>;
 
   constructor(concurrency = 10) {
@@ -9,6 +9,10 @@ export class PromisePool<T = unknown> {
 
   promiseAll(): Promise<T[]> {
     return Promise.all(this.promises.values());
+  }
+
+  setConcurrency(newConcurrency: number): void {
+    this.concurrency = newConcurrency;
   }
 
   async run(startPromise: () => Promise<T>): Promise<void> {

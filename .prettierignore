@@ -248,12 +248,6 @@ fabric.properties
 .history
 .ionide
 
-# Support for Project snippet scope
-.vscode/*.code-snippets
-
-# Ignore code-workspaces
-*.code-workspace
-
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode
 
 # Created by https://www.toptal.com/developers/gitignore/api/emacs

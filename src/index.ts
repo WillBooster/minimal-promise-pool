@@ -1,9 +1,9 @@
 export class PromisePool<T = unknown> {
-  private concurrency: number;
   private readonly promises: Set<Promise<T>>;
+  private _concurrency: number;
 
   constructor(concurrency = 10) {
-    this.concurrency = concurrency;
+    this._concurrency = concurrency;
     this.promises = new Set();
   }
 
@@ -11,12 +11,16 @@ export class PromisePool<T = unknown> {
     return Promise.all(this.promises.values());
   }
 
-  setConcurrency(newConcurrency: number): void {
-    this.concurrency = newConcurrency;
+  get concurrency(): number {
+    return this._concurrency;
+  }
+
+  set concurrency(concurrency: number) {
+    this._concurrency = concurrency;
   }
 
   async run(startPromise: () => Promise<T>): Promise<void> {
-    while (this.promises.size >= this.concurrency) {
+    while (this.promises.size >= this._concurrency) {
       await sleep(1);
     }
     const promise = startPromise().finally(() => this.promises.delete(promise));

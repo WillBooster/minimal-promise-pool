@@ -104,7 +104,9 @@ test('reduce concurrency during task', async () => {
   expect(startedCount).toBe(3);
   expect(finishedCount).toBe(0);
 
-  promisePool.setConcurrency(2);
+  expect(promisePool.concurrency).toBe(3);
+  promisePool.concurrency = 2;
+  expect(promisePool.concurrency).toBe(2);
   await promisePool.run(async () => {
     expect(finishedCount).toBe(2);
     startedCount++;
@@ -131,7 +133,9 @@ test('increase concurrency during task', async () => {
   expect(startedCount).toBe(2);
   expect(finishedCount).toBe(0);
 
-  promisePool.setConcurrency(3);
+  expect(promisePool.concurrency).toBe(2);
+  promisePool.concurrency = 3;
+  expect(promisePool.concurrency).toBe(3);
   await promisePool.run(async () => {
     expect(finishedCount).toBe(0);
     startedCount++;

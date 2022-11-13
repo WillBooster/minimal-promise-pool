@@ -63,7 +63,7 @@
     "sort-package-json": "2.1.0",
     "typescript": "4.8.4"
   },
-  "packageManager": "yarn@4.0.0-rc.27",
+  "packageManager": "yarn@4.0.0-rc.28",
   "engines": {
     "node": ">=12"
   },

@@ -12,8 +12,6 @@ export class PromisePool<T = unknown> {
   }
 
   async promiseAllSettled(): Promise<PromiseSettledResult<T>[]> {
-    // return Promise.allSettled(this.promises.values());
-
     const results: PromiseSettledResult<T>[] = [];
     for (const promise of this.promises.values()) {
       try {

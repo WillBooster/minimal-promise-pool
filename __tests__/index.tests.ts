@@ -1,5 +1,8 @@
 import { PromisePool, sleep } from '../src';
 
+type ResolveFunction = (value: unknown) => void;
+type RejectFunction = (reason?: any) => void;
+
 test('run three heavy tasks', async () => {
   const promisePool = new PromisePool(2);
   let startedCount = 0;
@@ -152,39 +155,45 @@ test('promiseAll() return a rejected promise immediately after one of promises i
   let startedCount = 0;
   let finishedCount = 0;
 
+  let resolveFirst: ResolveFunction | undefined;
+  let rejectSecond: RejectFunction | undefined;
+
   await promisePool.run(async () => {
     startedCount++;
-    await sleep(500);
+    await new Promise((resolve, reject) => {
+      resolveFirst = resolve;
+    });
     finishedCount++;
   });
   await promisePool.run(async () => {
     startedCount++;
-    await sleep(1);
-    throw new Error('error');
+    await new Promise((resolve, reject) => {
+      rejectSecond = reject;
+    });
+    finishedCount++;
   });
 
+  rejectSecond?.(new Error('error'));
   await expect(promisePool.promiseAll()).rejects.toThrow(Error);
 
   expect(startedCount).toBe(2);
   expect(finishedCount).toBe(0);
 
-  await promisePool.promiseAllSettled();
+  resolveFirst?.(undefined);
 });
 
 test('promiseAllSettled() return an array after all the promises is settled', async () => {
   const promisePool = new PromisePool(2);
   let startedCount = 0;
-  let finishedCount = 0;
 
   await promisePool.run(async () => {
     startedCount++;
     await sleep(1000);
-    finishedCount++;
     return 0;
   });
   await promisePool.run(async () => {
     startedCount++;
-    await sleep(1);
+    await sleep(500);
     throw new Error('error');
   });
 
@@ -194,5 +203,14 @@ test('promiseAllSettled() return an array after all the promises is settled', as
   expect(results[1].status === 'rejected' && results[1].reason).toBeInstanceOf(Error);
 
   expect(startedCount).toBe(2);
-  expect(finishedCount).toBe(1);
 });
+
+// function createHeavyPromise(): [Promise<unknown>, ResolveFunction, RejectFunction] {
+//   let resolveFunction: ((value: unknown) => void) | undefined;
+//   let rejectFunction: ((reason?: any) => void) | undefined;
+//   const promise = new Promise((resolve, reject) => {
+//     resolveFunction = resolve;
+//     rejectFunction = reject;
+//   });
+//   return [promise, resolveFunction, rejectFunction];
+// }

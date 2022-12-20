@@ -11,16 +11,14 @@ export class PromisePool<T = unknown> {
     return Promise.all(this.promises.values());
   }
 
-  async promiseAllSettled(): Promise<PromiseSettledResult<T>[]> {
-    const results: PromiseSettledResult<T>[] = [];
-    for (const promise of this.promises.values()) {
-      try {
-        results.push({ status: 'fulfilled', value: await promise });
-      } catch (error) {
-        results.push({ status: 'rejected', reason: error });
-      }
-    }
-    return results;
+  promiseAllSettled(): Promise<PromiseSettledResult<T>[]> {
+    return Promise.all(
+      [...this.promises.values()].map((promise: Promise<T>) =>
+        promise
+          .then((value) => ({ status: 'fulfilled', value } as PromiseFulfilledResult<T>))
+          .catch((error) => ({ status: 'rejected', reason: error } as PromiseRejectedResult))
+      )
+    );
   }
 
   get concurrency(): number {

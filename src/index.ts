@@ -12,17 +12,15 @@ export class PromisePool<T = unknown> {
   }
 
   async promiseAllSettled(): Promise<PromiseSettledResult<T>[]> {
-    return Promise.allSettled(this.promises.values());
-
-    // const results: PromiseSettledResult<T>[] = [];
-    // for (const promise of this.promises.values()) {
-    //   try {
-    //     results.push({ status: 'fulfilled', value: await promise });
-    //   } catch (error) {
-    //     results.push({ status: 'rejected', reason: error });
-    //   }
-    // }
-    // return results;
+    const results: PromiseSettledResult<T>[] = [];
+    for (const promise of this.promises.values()) {
+      try {
+        results.push({ status: 'fulfilled', value: await promise });
+      } catch (error) {
+        results.push({ status: 'rejected', reason: error });
+      }
+    }
+    return results;
   }
 
   get concurrency(): number {

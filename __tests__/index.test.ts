@@ -155,7 +155,7 @@ test('increase concurrency during task', async () => {
   expect(env.finishedCount).toBe(3);
 });
 
-test('promiseAll() return a rejected promise immediately after one of promises is rejected', async () => {
+test('promiseAll() returns a rejected promise immediately after one of promises is rejected', async () => {
   const env = new TestEnvironment(2);
 
   const [resolveFirst] = await runTask(env);
@@ -170,7 +170,7 @@ test('promiseAll() return a rejected promise immediately after one of promises i
   resolveFirst(undefined);
 });
 
-test('promiseAllSettled() return an array after all the promises is settled', async () => {
+test('promiseAllSettled() returns an array after all the promises are settled', async () => {
   const env = new TestEnvironment(2);
 
   const [resolveFirst] = await runTask(env);

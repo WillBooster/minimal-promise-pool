@@ -146,3 +146,53 @@ test('increase concurrency during task', async () => {
   expect(startedCount).toBe(3);
   expect(finishedCount).toBe(3);
 });
+
+test('promiseAll() return a rejected promise immediately after one of promises is rejected', async () => {
+  const promisePool = new PromisePool(2);
+  let startedCount = 0;
+  let finishedCount = 0;
+
+  await promisePool.run(async () => {
+    startedCount++;
+    await sleep(500);
+    finishedCount++;
+  });
+  await promisePool.run(async () => {
+    startedCount++;
+    await sleep(1);
+    throw new Error('error');
+  });
+
+  await expect(promisePool.promiseAll()).rejects.toThrow(Error);
+
+  expect(startedCount).toBe(2);
+  expect(finishedCount).toBe(0);
+
+  await promisePool.promiseAllSettled();
+});
+
+test('promiseAllSettled() return an array after all the promises is settled', async () => {
+  const promisePool = new PromisePool(2);
+  let startedCount = 0;
+  let finishedCount = 0;
+
+  await promisePool.run(async () => {
+    startedCount++;
+    await sleep(1000);
+    finishedCount++;
+    return 0;
+  });
+  await promisePool.run(async () => {
+    startedCount++;
+    await sleep(1);
+    throw new Error('error');
+  });
+
+  const results = await promisePool.promiseAllSettled();
+  expect(results).toHaveLength(2);
+  expect(results[0].status === 'fulfilled' && results[0].value).toBe(0);
+  expect(results[1].status === 'rejected' && results[1].reason).toBeInstanceOf(Error);
+
+  expect(startedCount).toBe(2);
+  expect(finishedCount).toBe(1);
+});

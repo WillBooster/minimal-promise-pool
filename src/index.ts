@@ -11,6 +11,16 @@ export class PromisePool<T = unknown> {
     return Promise.all(this.promises.values());
   }
 
+  promiseAllSettled(): Promise<PromiseSettledResult<T>[]> {
+    return Promise.all(
+      [...this.promises.values()].map((promise: Promise<T>) =>
+        promise
+          .then((value) => ({ status: 'fulfilled', value } as PromiseFulfilledResult<T>))
+          .catch((error) => ({ status: 'rejected', reason: error } as PromiseRejectedResult))
+      )
+    );
+  }
+
   get concurrency(): number {
     return this._concurrency;
   }

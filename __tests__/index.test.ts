@@ -156,6 +156,9 @@ test('promiseAll() returns a rejected promise immediately after one of promises 
   expect(env.finishedCount).toBe(0);
 
   resolveFirst(undefined);
+
+  await env.promisePool.promiseAll();
+  await env.promisePool.promiseAllSettled();
 });
 
 test('promiseAllSettled() returns an array after all the promises are settled', async () => {
@@ -174,6 +177,29 @@ test('promiseAllSettled() returns an array after all the promises are settled', 
   expect(results[1].status === 'rejected' && results[1].reason).toBeInstanceOf(Error);
 
   expect(env.startedCount).toBe(2);
+
+  await env.promisePool.promiseAll();
+  await env.promisePool.promiseAllSettled();
+});
+
+test('promiseCount returns the number of working promises', async () => {
+  const env = new TestEnvironment(2);
+
+  expect(env.promisePool.workingPromiseCount).toBe(0);
+  const [resolveFirst] = await env.runTask();
+  expect(env.promisePool.workingPromiseCount).toBe(1);
+  const [resolveSecond] = await env.runTask();
+  expect(env.promisePool.workingPromiseCount).toBe(2);
+
+  resolveFirst();
+  while (env.finishedCount < 1) {
+    await sleep(1);
+  }
+  expect(env.promisePool.workingPromiseCount).toBe(1);
+
+  resolveSecond();
+  await env.promisePool.promiseAllSettled();
+  expect(env.promisePool.workingPromiseCount).toBe(0);
 });
 
 type ResolveFunction = (value?: any) => void;

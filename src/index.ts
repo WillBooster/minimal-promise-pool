@@ -7,6 +7,18 @@ export class PromisePool<T = unknown> {
     this.promises = new Set();
   }
 
+  get workingPromiseCount(): number {
+    return this.promises.size;
+  }
+
+  get concurrency(): number {
+    return this._concurrency;
+  }
+
+  set concurrency(concurrency: number) {
+    this._concurrency = concurrency;
+  }
+
   promiseAll(): Promise<T[]> {
     return Promise.all(this.promises.values());
   }
@@ -19,14 +31,6 @@ export class PromisePool<T = unknown> {
           .catch((error) => ({ status: 'rejected', reason: error } as PromiseRejectedResult))
       )
     );
-  }
-
-  get concurrency(): number {
-    return this._concurrency;
-  }
-
-  set concurrency(concurrency: number) {
-    this._concurrency = concurrency;
   }
 
   async run(startPromise: () => Promise<T>): Promise<void> {

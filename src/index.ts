@@ -1,5 +1,7 @@
 export class PromisePool<T = unknown> {
   private readonly promises: Set<Promise<T>>;
+  private waitingPromise: Promise<void> | undefined;
+  private resumeFunction: ((value?: any) => void) | undefined;
   private _concurrency: number;
 
   constructor(concurrency = 10) {
@@ -16,7 +18,11 @@ export class PromisePool<T = unknown> {
   }
 
   set concurrency(concurrency: number) {
+    const oldConcurrency = this._concurrency;
     this._concurrency = concurrency;
+    if (concurrency > oldConcurrency) {
+      this.resume();
+    }
   }
 
   promiseAll(): Promise<T[]> {
@@ -35,10 +41,24 @@ export class PromisePool<T = unknown> {
 
   async run(startPromise: () => Promise<T>): Promise<void> {
     while (this.promises.size >= this._concurrency) {
-      await sleep(1);
+      this.waitingPromise ??= new Promise<void>((resolve) => {
+        this.resumeFunction = resolve;
+      });
+      await this.waitingPromise;
     }
-    const promise = startPromise().finally(() => this.promises.delete(promise));
+    const promise = startPromise().finally(() => {
+      this.promises.delete(promise);
+      this.resume();
+    });
     this.promises.add(promise);
+  }
+
+  private resume(): void {
+    if (!this.resumeFunction) return;
+
+    this.resumeFunction();
+    this.waitingPromise = undefined;
+    this.resumeFunction = undefined;
   }
 }
 

@@ -3513,9 +3513,9 @@ __metadata:
   linkType: hard
 
 "ignore@npm:^5.2.0":
-  version: 5.2.1
-  resolution: "ignore@npm:5.2.1"
-  checksum: 6b24bc1067595721e6158dd4d0f88e9ebf5f9542e8b69156a93400cc2d1428102e8437b851883c3da2d2c70842330efd4d90519c2027113ee2c8142745cfb357
+  version: 5.2.4
+  resolution: "ignore@npm:5.2.4"
+  checksum: 55c58d848bb753a2b7e0b4a19352f9212eae2e4a05e4a12753e90b921108a6caa140adf958a5084b144bedd886b44e3bc93f6b4839e5aba1fb4a72c6625da4c1
   languageName: node
   linkType: hard
 
@@ -4509,11 +4509,11 @@ __metadata:
   linkType: hard
 
 "marked@npm:^4.0.10":
-  version: 4.2.4
-  resolution: "marked@npm:4.2.4"
+  version: 4.2.5
+  resolution: "marked@npm:4.2.5"
   bin:
     marked: bin/marked.js
-  checksum: 3f726c2dfebf397d959edad2a2069d90e3f946d9ce4ebfcd4fc249ef1c89124f4d48341cd907ca23947c9c211c8be53b406a1f6809cb6279959dba47a4b5c0bd
+  checksum: 204b167caadd61acf1bf11c1efa0e08fce478d52a6ebfebf90c3a56fba807da55b6d3b891ab375a8292384cfdd823f3f437e1b2e3e6a3a46764af69ef970100d
   languageName: node
   linkType: hard
 
@@ -4634,11 +4634,11 @@ __metadata:
   linkType: hard
 
 "minimatch@npm:^5.0.1, minimatch@npm:^5.1.0":
-  version: 5.1.1
-  resolution: "minimatch@npm:5.1.1"
+  version: 5.1.2
+  resolution: "minimatch@npm:5.1.2"
   dependencies:
     brace-expansion: "npm:^2.0.1"
-  checksum: ba23a8bda78e0210e5f12e66f57b087bf20620154aaceb48473cd0d2eca88fbc2dffec4931a43dd69173ef86ac933f25a285a4920161713577419880a3a61ab8
+  checksum: db22781a7b993641742f075b499f5fee04b64177fe6ed0fd6859aff2fd7f6b2de2c7a4c7728fa15c5b4638589da8bd2a1cdac3ee2976a3ffe92cb146f3999b4a
   languageName: node
   linkType: hard
 
@@ -4894,27 +4894,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-gyp@npm:^9.0.0, node-gyp@npm:latest":
-  version: 9.3.0
-  resolution: "node-gyp@npm:9.3.0"
-  dependencies:
-    env-paths: "npm:^2.2.0"
-    glob: "npm:^7.1.4"
-    graceful-fs: "npm:^4.2.6"
-    make-fetch-happen: "npm:^10.0.3"
-    nopt: "npm:^6.0.0"
-    npmlog: "npm:^6.0.0"
-    rimraf: "npm:^3.0.2"
-    semver: "npm:^7.3.5"
-    tar: "npm:^6.1.2"
-    which: "npm:^2.0.2"
-  bin:
-    node-gyp: bin/node-gyp.js
-  checksum: 986e171f91cedd913800b4f272f9c22258a15bc8f44d2426630dc68d98281614004d4da1a8aec7a70a6171056425a95828cd68d8433b89d0e16ed973507ecccf
-  languageName: node
-  linkType: hard
-
-"node-gyp@npm:^9.1.0":
+"node-gyp@npm:^9.0.0, node-gyp@npm:^9.1.0, node-gyp@npm:latest":
   version: 9.3.1
   resolution: "node-gyp@npm:9.3.1"
   dependencies:
@@ -6120,8 +6100,8 @@ __metadata:
   linkType: hard
 
 "rollup@npm:^3.7.0":
-  version: 3.7.5
-  resolution: "rollup@npm:3.7.5"
+  version: 3.8.1
+  resolution: "rollup@npm:3.8.1"
   dependencies:
     fsevents: "npm:~2.3.2"
   dependenciesMeta:
@@ -6129,7 +6109,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: e3141a7789dc9cd54bb61b1da84c640512681db7008a37938b56e974af1b4971ccef0d04653403ee9e29595781d10acf487ba57948cda0cb590cfda86c609d1e
+  checksum: e6df7611f6a2b80db687526748614dfbf4f1e4540ea0e8fe86d9d062b2432cc39df0294a0e22eb63e52a8ed7b626854e213581745e26611176c87ef254cde45d
   languageName: node
   linkType: hard
 
@@ -7240,8 +7220,8 @@ __metadata:
   linkType: hard
 
 "vite@npm:^3.0.0 || ^4.0.0":
-  version: 4.0.2
-  resolution: "vite@npm:4.0.2"
+  version: 4.0.3
+  resolution: "vite@npm:4.0.3"
   dependencies:
     esbuild: "npm:^0.16.3"
     fsevents: "npm:~2.3.2"
@@ -7273,7 +7253,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: da0c6086c8c6b517a75f2b16e70b4cb9583f3fadb6f97a69f4f38ff0d214dbeae3bdada3f628618c6104dbf1dc1f576c665b36c0b22f3785eda4a36f9969025e
+  checksum: b6a539ef6a7f826b7d53585284896f4f4f45089a52d151baa0d956eece63b3edab4b1e5b828df59e4374dc650719c4301cc3d00833ce618c14e2b95859fdbd18
   languageName: node
   linkType: hard
 
@@ -7485,9 +7465,9 @@ __metadata:
   linkType: hard
 
 "yaml@npm:^2.1.3":
-  version: 2.1.3
-  resolution: "yaml@npm:2.1.3"
-  checksum: 2747f51351cbf5f0d8b1cdd0e25ddfbf3cf3b7604822a1f4024f059af90679f0f6a51943f75dcac6ba119c26c58cf29ce4326aed175c2c17071414c724582389
+  version: 2.2.0
+  resolution: "yaml@npm:2.2.0"
+  checksum: 0c12c2250e0842f4ff6427685914feac78b7032e2c1bfdb505baacd73968bd96f369322f2591325044cb2a23ed0ecfb80763f6929689c3ac01d65154c17cc842
   languageName: node
   linkType: hard
 

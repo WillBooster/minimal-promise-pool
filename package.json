@@ -10,14 +10,14 @@
   "repository": "github:WillBooster/minimal-promise-pool",
   "license": "Apache-2.0",
   "author": "WillBooster Inc.",
-  "main": "dist/index.min.cjs",
-  "module": "dist/index.min.mjs",
-  "types": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/mjs/index.js",
+  "types": "dist/cjs/index.d.ts",
   "files": [
     "dist/"
   ],
   "scripts": {
-    "build": "node esbuild.js",
+    "build": "build-ts build -t lib",
     "cleanup": "yarn format && yarn lint-fix",
     "format": "sort-package-json && yarn prettify",
     "postinstall": "husky install",
@@ -26,12 +26,15 @@
     "prepack": "pinst --disable",
     "postpack": "pinst --enable",
     "prettify": "prettier --cache --color --write \"**/{.*/,}*.{cjs,css,cts,htm,html,js,json,json5,jsx,md,mjs,mts,scss,ts,tsx,vue,yaml,yml}\" \"!**/test-fixtures/**\"",
-    "test": "yarn vitest",
+    "test": "vitest",
     "typecheck": "tsc --noEmit --Pretty"
   },
   "prettier": "@willbooster/prettier-config",
   "resolutions": {
     "npm/chalk": "^4.1.2"
+  },
+  "dependencies": {
+    "@babel/runtime": "7.20.7"
   },
   "devDependencies": {
     "@types/eslint": "8.4.10",
@@ -42,9 +45,8 @@
     "@willbooster/eslint-config-ts": "10.0.8",
     "@willbooster/prettier-config": "9.1.1",
     "@willbooster/renovate-config": "9.4.2",
+    "build-ts": "3.1.3",
     "conventional-changelog-conventionalcommits": "5.0.0",
-    "esbuild": "0.16.12",
-    "esbuild-plugin-d.ts": "1.1.0",
     "eslint": "8.30.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-import-resolver-typescript": "3.5.2",

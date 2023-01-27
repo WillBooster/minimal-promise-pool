@@ -34,7 +34,7 @@
     "npm/chalk": "^4.1.2"
   },
   "dependencies": {
-    "@babel/runtime": "7.20.7"
+    "@babel/runtime": "7.20.13"
   },
   "devDependencies": {
     "@types/eslint": "8.4.10",
@@ -45,7 +45,7 @@
     "@willbooster/eslint-config-ts": "10.0.8",
     "@willbooster/prettier-config": "9.1.1",
     "@willbooster/renovate-config": "9.5.0",
-    "build-ts": "3.2.5",
+    "build-ts": "3.2.6",
     "conventional-changelog-conventionalcommits": "5.0.0",
     "eslint": "8.32.0",
     "eslint-config-prettier": "8.6.0",
@@ -59,10 +59,10 @@
     "micromatch": "4.0.5",
     "pinst": "3.0.0",
     "prettier": "2.8.3",
-    "semantic-release": "20.0.2",
+    "semantic-release": "20.1.0",
     "sort-package-json": "2.2.0",
     "typescript": "4.9.4",
-    "vitest": "0.27.2"
+    "vitest": "0.28.3"
   },
   "packageManager": "yarn@4.0.0-rc.36",
   "engines": {

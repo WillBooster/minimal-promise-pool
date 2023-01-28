@@ -10,14 +10,14 @@
   "repository": "github:WillBooster/minimal-promise-pool",
   "license": "Apache-2.0",
   "author": "WillBooster Inc.",
-  "main": "dist/cjs/index.js",
-  "module": "dist/mjs/index.js",
-  "types": "dist/cjs/index.d.ts",
+  "main": "dist/cjs/index.cjs",
+  "module": "dist/mjs/index.mjs",
+  "types": "dist/cjs/index.d.cts",
   "files": [
     "dist/"
   ],
   "scripts": {
-    "build": "build-ts build -t lib",
+    "build": "build-ts lib",
     "cleanup": "yarn format && yarn lint-fix",
     "format": "sort-package-json && yarn prettify",
     "postinstall": "husky install",
@@ -45,7 +45,7 @@
     "@willbooster/eslint-config-ts": "10.0.8",
     "@willbooster/prettier-config": "9.1.1",
     "@willbooster/renovate-config": "9.5.0",
-    "build-ts": "3.2.6",
+    "build-ts": "5.0.0",
     "conventional-changelog-conventionalcommits": "5.0.0",
     "eslint": "8.32.0",
     "eslint-config-prettier": "8.6.0",

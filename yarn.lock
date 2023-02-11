@@ -3141,9 +3141,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"build-ts@npm:5.3.3":
-  version: 5.3.3
-  resolution: "build-ts@npm:5.3.3"
+"build-ts@npm:5.5.0":
+  version: 5.5.0
+  resolution: "build-ts@npm:5.5.0"
   dependencies:
     "@babel/core": "npm:7.20.12"
     "@babel/plugin-proposal-class-properties": "npm:7.18.6"
@@ -3167,9 +3167,9 @@ __metadata:
     date-time: "npm:4.0.0"
     dotenv: "npm:16.0.3"
     pretty-ms: "npm:8.0.0"
-    rollup: "npm:3.11.0"
+    rollup: "npm:3.14.0"
     rollup-plugin-analyzer: "npm:4.0.0"
-    rollup-plugin-node-externals: "npm:5.1.0"
+    rollup-plugin-node-externals: "npm:5.1.2"
     rollup-plugin-string: "npm:3.0.0"
     rollup-plugin-ts: "npm:3.2.0"
     signal-exit: "npm:3.0.7"
@@ -3177,7 +3177,7 @@ __metadata:
     yargs: "npm:17.6.2"
   bin:
     build-ts: bin/index.mjs
-  checksum: 38e1b87ffed1387d3f11324004f435bbd890c841ed172dfb9c4abefab2d4154ad3d3345fb792dfef452b03405e4e2c23a429280f186abbdedea86b1a121e2870
+  checksum: 6852d604156af75a6537fadf9b4053386f2a25ff93ef0bdc8eff42b52e432d7ae29ae98aba08a2bf508e7ba9dc58a23d1cda225315ce7632927d60c169271708
   languageName: node
   linkType: hard
 
@@ -4419,9 +4419,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:8.33.0":
-  version: 8.33.0
-  resolution: "eslint@npm:8.33.0"
+"eslint@npm:8.34.0":
+  version: 8.34.0
+  resolution: "eslint@npm:8.34.0"
   dependencies:
     "@eslint/eslintrc": "npm:^1.4.1"
     "@humanwhocodes/config-array": "npm:^0.11.8"
@@ -4464,7 +4464,7 @@ __metadata:
     text-table: "npm:^0.2.0"
   bin:
     eslint: bin/eslint.js
-  checksum: 616877cf98325f619070e6c85b1bb4734fe99202871f5f43cbb9c56b13d7cacf8caa499c61c0a112541067be3b6143cd0497d1319950a4a1d355adeff8504596
+  checksum: ec20023e4d680f390b89509f27b40824957d6518ed19c43c52b979e891a3ee225cf09a7fc9e9f882b3636f5cfa34a7a2e20416a2b22047d94db9b1ac3a55e9d9
   languageName: node
   linkType: hard
 
@@ -6447,9 +6447,9 @@ __metadata:
     "@willbooster/eslint-config-ts": "npm:10.0.8"
     "@willbooster/prettier-config": "npm:9.1.1"
     "@willbooster/renovate-config": "npm:9.5.0"
-    build-ts: "npm:5.3.3"
+    build-ts: "npm:5.5.0"
     conventional-changelog-conventionalcommits: "npm:5.0.0"
-    eslint: "npm:8.33.0"
+    eslint: "npm:8.34.0"
     eslint-config-prettier: "npm:8.6.0"
     eslint-import-resolver-typescript: "npm:3.5.3"
     eslint-plugin-import: "npm:2.27.5"
@@ -8033,12 +8033,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup-plugin-node-externals@npm:5.1.0":
-  version: 5.1.0
-  resolution: "rollup-plugin-node-externals@npm:5.1.0"
+"rollup-plugin-node-externals@npm:5.1.2":
+  version: 5.1.2
+  resolution: "rollup-plugin-node-externals@npm:5.1.2"
   peerDependencies:
     rollup: ^2.60.0 || ^3.0.0
-  checksum: 47cef5872127e06c9e768efde565dc03b1c42ee297c4cccdaa7e1797a32eeab7608a8c56b9550bae28257a65d8d378ad84de425949ae1809ffd53b1844414de8
+  checksum: d6253a4b3233f84c3bc4ed172aa3c5b4ccb27cd7230deddc344a97617267c5a94a1dac9ec43e144153ffcb2af3df49b24c79ab6a306b007034847bd2832127c8
   languageName: node
   linkType: hard
 
@@ -8103,21 +8103,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:3.11.0":
-  version: 3.11.0
-  resolution: "rollup@npm:3.11.0"
-  dependencies:
-    fsevents: "npm:~2.3.2"
-  dependenciesMeta:
-    fsevents:
-      optional: true
-  bin:
-    rollup: dist/bin/rollup
-  checksum: 48ea267db5e8b2b52a95b75acfc149c34c029743729a93520feb2aa363bc3e8b02bebb72c535933450c9cc9e9ff118b18b6cce718c40b7cf3e55c9fdcdcfb6d2
-  languageName: node
-  linkType: hard
-
-"rollup@npm:^3.10.0":
+"rollup@npm:3.14.0, rollup@npm:^3.10.0":
   version: 3.14.0
   resolution: "rollup@npm:3.14.0"
   dependencies:

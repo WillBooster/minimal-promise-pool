@@ -34,7 +34,7 @@
     "npm/chalk": "^4.1.2"
   },
   "dependencies": {
-    "@babel/runtime": "7.20.13"
+    "@babel/runtime": "7.21.0"
   },
   "devDependencies": {
     "@types/eslint": "8.21.1",
@@ -45,7 +45,7 @@
     "@willbooster/eslint-config-ts": "10.0.8",
     "@willbooster/prettier-config": "9.1.1",
     "@willbooster/renovate-config": "9.5.0",
-    "build-ts": "5.7.2",
+    "build-ts": "5.7.3",
     "conventional-changelog-conventionalcommits": "5.0.0",
     "eslint": "8.34.0",
     "eslint-config-prettier": "8.6.0",

@@ -10,9 +10,9 @@
   "repository": "github:WillBooster/minimal-promise-pool",
   "license": "Apache-2.0",
   "author": "WillBooster Inc.",
-  "main": "dist/cjs/index.cjs",
+  "main": "dist/cjs/index.js",
   "module": "dist/mjs/index.mjs",
-  "types": "dist/cjs/index.d.cts",
+  "types": "dist/cjs/index.d.ts",
   "files": [
     "dist/"
   ],

@@ -1366,7 +1366,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:7.21.5, @babel/runtime@npm:^7.8.4":
+"@babel/runtime@npm:7.22.0":
+  version: 7.22.0
+  resolution: "@babel/runtime@npm:7.22.0"
+  dependencies:
+    regenerator-runtime: "npm:^0.13.11"
+  checksum: 337039bc4a6daa0c87c3b92cd3eaf09dcb42aeb5d206394adb068ed4008186cfb155dd1c7d77d666389bdfb8686f9f1cff6053c03563bbc8eb79b85742d21d2b
+  languageName: node
+  linkType: hard
+
+"@babel/runtime@npm:^7.8.4":
   version: 7.21.5
   resolution: "@babel/runtime@npm:7.21.5"
   dependencies:
@@ -2433,13 +2442,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:8.37.0":
-  version: 8.37.0
-  resolution: "@types/eslint@npm:8.37.0"
+"@types/eslint@npm:8.40.0":
+  version: 8.40.0
+  resolution: "@types/eslint@npm:8.40.0"
   dependencies:
     "@types/estree": "npm:*"
     "@types/json-schema": "npm:*"
-  checksum: 5a1b547b4fbebeb173fd3e4a717de868021a14322cb7bd1bc2b432f3ac3cfec2e268623d24543a4ca7787fe64c59dd310a6ee329199e9f16b0d168d26a2da026
+  checksum: 64e7807d116fb55c95152443c32ebfcb66dcb8b71daf3be46b15ef1c07d0d6a3a63391ef8cd93a4ccc7e681995b713969db88bfd8082715874d835fce111f467
   languageName: node
   linkType: hard
 
@@ -6670,8 +6679,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "minimal-promise-pool@workspace:."
   dependencies:
-    "@babel/runtime": "npm:7.21.5"
-    "@types/eslint": "npm:8.37.0"
+    "@babel/runtime": "npm:7.22.0"
+    "@types/eslint": "npm:8.40.0"
     "@types/micromatch": "npm:4.0.2"
     "@types/prettier": "npm:2.7.2"
     "@typescript-eslint/eslint-plugin": "npm:5.59.7"

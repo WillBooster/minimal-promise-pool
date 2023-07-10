@@ -39,10 +39,10 @@
   },
   "prettier": "@willbooster/prettier-config",
   "dependencies": {
-    "@babel/runtime": "7.22.5"
+    "@babel/runtime": "7.22.6"
   },
   "devDependencies": {
-    "@types/eslint": "8.40.2",
+    "@types/eslint": "8.44.0",
     "@types/micromatch": "4.0.2",
     "@types/prettier": "2.7.3",
     "@typescript-eslint/eslint-plugin": "5.61.0",
@@ -50,7 +50,7 @@
     "@willbooster/eslint-config-ts": "10.2.0",
     "@willbooster/prettier-config": "9.1.1",
     "@willbooster/renovate-config": "9.5.0",
-    "build-ts": "5.10.4",
+    "build-ts": "5.10.5",
     "conventional-changelog-conventionalcommits": "6.1.0",
     "eslint": "8.44.0",
     "eslint-config-prettier": "8.8.0",
@@ -64,10 +64,10 @@
     "micromatch": "4.0.5",
     "pinst": "3.0.0",
     "prettier": "3.0.0",
-    "semantic-release": "21.0.5",
+    "semantic-release": "21.0.7",
     "sort-package-json": "2.5.1",
     "typescript": "5.1.6",
-    "vitest": "0.32.2"
+    "vitest": "0.33.0"
   },
   "packageManager": "yarn@4.0.0-rc.48",
   "engines": {

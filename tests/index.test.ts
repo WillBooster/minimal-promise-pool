@@ -202,8 +202,8 @@ test('promiseCount returns the number of working promises', async () => {
   expect(env.promisePool.workingPromiseCount).toBe(0);
 });
 
-type ResolveFunction = (value?: any) => void;
-type RejectFunction = (reason?: any) => void;
+type ResolveFunction = (value?: unknown) => void;
+type RejectFunction = (reason?: unknown) => void;
 
 class TestEnvironment {
   promisePool: PromisePool;

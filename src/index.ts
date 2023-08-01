@@ -1,7 +1,7 @@
 export class PromisePool<T = unknown> {
   private readonly promises: Set<Promise<T>>;
   private waitingPromise: Promise<void> | undefined;
-  private resumeFunction: ((value?: any) => void) | undefined;
+  private resumeFunction: (() => void) | undefined;
   private _concurrency: number;
 
   constructor(concurrency = 10) {

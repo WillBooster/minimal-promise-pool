@@ -39,7 +39,7 @@
   },
   "prettier": "@willbooster/prettier-config",
   "dependencies": {
-    "@babel/runtime": "7.22.6"
+    "@babel/runtime": "7.22.10"
   },
   "devDependencies": {
     "@types/eslint": "8.44.2",
@@ -51,7 +51,7 @@
     "@willbooster/prettier-config": "9.1.1",
     "build-ts": "8.2.0",
     "conventional-changelog-conventionalcommits": "6.1.0",
-    "eslint": "8.46.0",
+    "eslint": "8.47.0",
     "eslint-config-prettier": "9.0.0",
     "eslint-import-resolver-typescript": "3.6.0",
     "eslint-plugin-import": "2.28.0",

@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
 
-import { PromisePool, sleep } from '../src';
+import { PromisePool, sleep } from '../src/index.js';
 
 test('run three heavy tasks', async () => {
   const env = new TestEnvironment(2);

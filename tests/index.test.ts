@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
 
-import { PromisePool, sleep } from '../src/index.js';
+import { PromisePool } from '../src/index.js';
 
 test('run three heavy tasks', async () => {
   const env = new TestEnvironment(2);
@@ -230,4 +230,8 @@ class TestEnvironment {
     });
     return [resolveFunction as ResolveFunction, rejectFunction as RejectFunction];
   }
+}
+
+async function sleep(milliseconds: number): Promise<void> {
+  return new Promise((r) => setTimeout(r, milliseconds));
 }

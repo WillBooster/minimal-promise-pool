@@ -3,9 +3,11 @@ export class PromisePool<T = unknown> {
   private waitingPromise: Promise<void> | undefined;
   private resumeFunction: (() => void) | undefined;
   private _concurrency: number;
+  private _queuedPromiseCount: number;
 
   constructor(concurrency = 10) {
     this._concurrency = concurrency;
+    this._queuedPromiseCount = 0;
     this.promises = new Set();
   }
 
@@ -25,6 +27,10 @@ export class PromisePool<T = unknown> {
     }
   }
 
+  get queuedPromiseCount(): number {
+    return this._queuedPromiseCount;
+  }
+
   promiseAll(): Promise<T[]> {
     return Promise.all(this.promises.values());
   }
@@ -40,6 +46,7 @@ export class PromisePool<T = unknown> {
   }
 
   async run(startPromise: () => Promise<T>): Promise<void> {
+    this._queuedPromiseCount++;
     while (this.promises.size >= this._concurrency) {
       this.waitingPromise ??= new Promise<void>((resolve) => {
         this.resumeFunction = resolve;
@@ -47,6 +54,7 @@ export class PromisePool<T = unknown> {
       await this.waitingPromise;
     }
     const promise = startPromise().finally(() => {
+      this._queuedPromiseCount--;
       this.promises.delete(promise);
       this.resume();
     });
@@ -60,8 +68,4 @@ export class PromisePool<T = unknown> {
     this.waitingPromise = undefined;
     this.resumeFunction = undefined;
   }
-}
-
-export async function sleep(milliseconds: number): Promise<void> {
-  return new Promise((r) => setTimeout(r, milliseconds));
 }

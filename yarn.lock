@@ -2567,13 +2567,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:8.44.4":
-  version: 8.44.4
-  resolution: "@types/eslint@npm:8.44.4"
+"@types/eslint@npm:8.44.6":
+  version: 8.44.6
+  resolution: "@types/eslint@npm:8.44.6"
   dependencies:
     "@types/estree": "npm:*"
     "@types/json-schema": "npm:*"
-  checksum: dd554ee39dbc3558e04f31873d2c00d8949869b5ec2325315ae2d04acb124d91e2b434309362e55d6bc76bd9df30a927ba4ebf4b1819d8549ffadc6cf87d4240
+  checksum: fc449107eb186bdc5d30149bbcb4e673af8530afdeacca3b89f14deefcbfc67463157d6a81b42cd9df92ddeafda5351853d13310ff7ac6ab0d9769ac7cc0cc3a
   languageName: node
   linkType: hard
 
@@ -2598,12 +2598,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/micromatch@npm:4.0.3":
-  version: 4.0.3
-  resolution: "@types/micromatch@npm:4.0.3"
+"@types/micromatch@npm:4.0.4":
+  version: 4.0.4
+  resolution: "@types/micromatch@npm:4.0.4"
   dependencies:
     "@types/braces": "npm:*"
-  checksum: 29c75b4a373c59220d588626dedf9f277ab34bae5affe516415efc51db310fd14eba0c8ac8eaa57830f73810e5d6ae18adbd59b53fa7ddccad59b37341e3aef6
+  checksum: 610c7303949b18f9dcae9d7804d5ef6f42bdb471289577579b8c95713abf815864540f58213d9bbaa60fa24b4bb55a1e2dc6ea0910a665102465caacb1555b76
   languageName: node
   linkType: hard
 
@@ -6701,8 +6701,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "minimal-promise-pool@workspace:."
   dependencies:
-    "@types/eslint": "npm:8.44.4"
-    "@types/micromatch": "npm:4.0.3"
+    "@types/eslint": "npm:8.44.6"
+    "@types/micromatch": "npm:4.0.4"
     "@typescript-eslint/eslint-plugin": "npm:6.8.0"
     "@typescript-eslint/parser": "npm:6.8.0"
     "@willbooster/eslint-config-ts": "npm:10.5.0"

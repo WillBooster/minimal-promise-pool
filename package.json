@@ -41,8 +41,8 @@
   "devDependencies": {
     "@types/eslint": "8.44.7",
     "@types/micromatch": "4.0.5",
-    "@typescript-eslint/eslint-plugin": "6.10.0",
-    "@typescript-eslint/parser": "6.10.0",
+    "@typescript-eslint/eslint-plugin": "6.11.0",
+    "@typescript-eslint/parser": "6.11.0",
     "@willbooster/eslint-config-ts": "10.5.1",
     "@willbooster/prettier-config": "9.1.2",
     "build-ts": "9.1.5",
@@ -64,7 +64,7 @@
     "typescript": "5.2.2",
     "vitest": "0.34.6"
   },
-  "packageManager": "yarn@4.0.1",
+  "packageManager": "yarn@4.0.2",
   "engines": {
     "node": ">=18"
   },

@@ -6884,7 +6884,7 @@ __metadata:
     micromatch: "npm:4.0.5"
     pinst: "npm:3.0.0"
     prettier: "npm:3.2.5"
-    semantic-release: "npm:23.1.0"
+    semantic-release: "npm:23.1.1"
     sort-package-json: "npm:2.10.0"
     typescript: "npm:5.4.5"
     vitest: "npm:1.6.0"
@@ -8629,9 +8629,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semantic-release@npm:23.1.0":
-  version: 23.1.0
-  resolution: "semantic-release@npm:23.1.0"
+"semantic-release@npm:23.1.1":
+  version: 23.1.1
+  resolution: "semantic-release@npm:23.1.1"
   dependencies:
     "@semantic-release/commit-analyzer": "npm:^12.0.0"
     "@semantic-release/error": "npm:^4.0.0"
@@ -8642,7 +8642,7 @@ __metadata:
     cosmiconfig: "npm:^9.0.0"
     debug: "npm:^4.0.0"
     env-ci: "npm:^11.0.0"
-    execa: "npm:^8.0.0"
+    execa: "npm:^9.0.0"
     figures: "npm:^6.0.0"
     find-versions: "npm:^6.0.0"
     get-stream: "npm:^6.0.0"
@@ -8664,7 +8664,7 @@ __metadata:
     yargs: "npm:^17.5.1"
   bin:
     semantic-release: bin/semantic-release.js
-  checksum: 10c0/4396029521e9af112af8cdea7f1325e21c460c3510877601598b99a901ddf6d64c9b806ef0f4448d4fb1a1af8fb05cfdde9775a8b912a4e8a9e9fa6e7a2c3eff
+  checksum: 10c0/c54fb43917299737803ca89fd5c692e08c630ad8765617b30ac41fb21173db67ce4bc617811b29702d27badd5075d984fcc8bdf058c3b3ce81732016bb07f9ee
   languageName: node
   linkType: hard
 

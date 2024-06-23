@@ -202,6 +202,25 @@ test('promiseCount returns the number of working promises', async () => {
   expect(env.promisePool.workingPromiseCount).toBe(0);
 });
 
+test('runAndWaitForReturnValue returns the resolved value of a promise', async () => {
+  const promisePool = new PromisePool(2);
+  const resolves: ((value: number) => void)[] = [];
+  const promises = [
+    new Promise((resolve) => resolves.push(resolve)),
+    new Promise((resolve) => resolves.push(resolve)),
+    new Promise((resolve) => resolves.push(resolve)),
+  ];
+  const promiseAll = Promise.all([
+    promisePool.runAndWaitForReturnValue(() => promises[0]),
+    promisePool.runAndWaitForReturnValue(() => promises[1]),
+    promisePool.runAndWaitForReturnValue(() => promises[2]),
+  ]);
+  resolves[2](2);
+  resolves[1](1);
+  resolves[0](0);
+  expect(await promiseAll).toEqual([0, 1, 2]);
+});
+
 type ResolveFunction = (value?: unknown) => void;
 type RejectFunction = (reason?: unknown) => void;
 
@@ -221,12 +240,12 @@ class TestEnvironment {
     let rejectFunction: RejectFunction | undefined;
     await this.promisePool.run(async () => {
       this.startedCount++;
-      const ret = await new Promise((resolve, reject) => {
+      const promise = await new Promise((resolve, reject) => {
         resolveFunction = resolve;
         rejectFunction = reject;
       });
       this.finishedCount++;
-      return ret;
+      return promise;
     });
     return [resolveFunction as ResolveFunction, rejectFunction as RejectFunction];
   }

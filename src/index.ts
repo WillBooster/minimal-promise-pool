@@ -46,6 +46,15 @@ export class PromisePool<T = unknown> {
   }
 
   async run(startPromise: () => Promise<T>): Promise<void> {
+    await this.privateRunAndWaitForReturnValue(startPromise);
+  }
+
+  async runAndWaitForReturnValue(startPromise: () => Promise<T>): Promise<T> {
+    const [promise] = await this.privateRunAndWaitForReturnValue(startPromise);
+    return await promise;
+  }
+
+  private async privateRunAndWaitForReturnValue(startPromise: () => Promise<T>): Promise<[Promise<T>]> {
     this._queuedPromiseCount++;
     while (this.promises.size >= this._concurrency) {
       this.waitingPromise ??= new Promise<void>((resolve) => {
@@ -59,6 +68,8 @@ export class PromisePool<T = unknown> {
       this.resume();
     });
     this.promises.add(promise);
+    // Don't return the promise as is since run() wants to ignore the return value.
+    return [promise];
   }
 
   private resume(): void {

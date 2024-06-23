@@ -49,12 +49,12 @@ export class PromisePool<T = unknown> {
     await this.privateRunAndWaitForReturnValue(startPromise);
   }
 
-  async runAndWaitForReturnValue(startPromise: () => Promise<T>): Promise<T> {
+  async runAndWaitForReturnValue<R extends T>(startPromise: () => Promise<R>): Promise<R> {
     const [promise] = await this.privateRunAndWaitForReturnValue(startPromise);
     return await promise;
   }
 
-  private async privateRunAndWaitForReturnValue(startPromise: () => Promise<T>): Promise<[Promise<T>]> {
+  private async privateRunAndWaitForReturnValue<R extends T>(startPromise: () => Promise<R>): Promise<[Promise<R>]> {
     this._queuedPromiseCount++;
     while (this.promises.size >= this._concurrency) {
       this.waitingPromise ??= new Promise<void>((resolve) => {

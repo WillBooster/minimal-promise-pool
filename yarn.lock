@@ -2862,12 +2862,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/micromatch@npm:4.0.7":
-  version: 4.0.7
-  resolution: "@types/micromatch@npm:4.0.7"
+"@types/micromatch@npm:4.0.8":
+  version: 4.0.8
+  resolution: "@types/micromatch@npm:4.0.8"
   dependencies:
     "@types/braces": "npm:*"
-  checksum: 10c0/972cdc349b611f18e3e43123865a46c053490f16cbd1d97e95c7d04ff7c8aef69bbae831249518d374e7bc0378e51ba088da9950422fbfced4b5bedde9738d13
+  checksum: 10c0/7c8040952b164858b99c3aafd9018a5b401c3d05caf83dbb1d9138eee972cadeccb337fc2ab2cf4e4a80aaaf8ccfc819b13ce9403f4bab5627d6b66423772153
   languageName: node
   linkType: hard
 
@@ -6892,7 +6892,7 @@ __metadata:
   resolution: "minimal-promise-pool@workspace:."
   dependencies:
     "@types/eslint": "npm:8.56.10"
-    "@types/micromatch": "npm:4.0.7"
+    "@types/micromatch": "npm:4.0.8"
     "@typescript-eslint/eslint-plugin": "npm:7.14.1"
     "@typescript-eslint/parser": "npm:7.14.1"
     "@willbooster/eslint-config-ts": "npm:10.6.0"

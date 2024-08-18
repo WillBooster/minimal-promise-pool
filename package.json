@@ -40,7 +40,7 @@
   },
   "prettier": "@willbooster/prettier-config",
   "devDependencies": {
-    "@types/eslint": "8.56.11",
+    "@types/eslint": "9.6.0",
     "@types/micromatch": "4.0.9",
     "@typescript-eslint/eslint-plugin": "8.1.0",
     "@typescript-eslint/parser": "8.1.0",
@@ -48,7 +48,7 @@
     "@willbooster/prettier-config": "9.1.2",
     "build-ts": "12.1.0",
     "conventional-changelog-conventionalcommits": "8.0.0",
-    "eslint": "8.57.0",
+    "eslint": "9.9.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-import-resolver-typescript": "3.6.1",
     "eslint-plugin-import": "2.29.1",

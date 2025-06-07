@@ -40,12 +40,13 @@ export class PromisePool<T = unknown> {
       [...this.promises.values()].map((promise: Promise<T>) =>
         promise
           .then((value) => ({ status: 'fulfilled', value }) as PromiseFulfilledResult<T>)
-          .catch((error) => ({ status: 'rejected', reason: error }) as PromiseRejectedResult)
+          .catch((error: unknown) => ({ status: 'rejected', reason: error }) as PromiseRejectedResult)
       )
     );
   }
 
   async run(startPromise: () => Promise<T>): Promise<void> {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     await this.privateRunAndWaitForReturnValue(startPromise);
   }
 

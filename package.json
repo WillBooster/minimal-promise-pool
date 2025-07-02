@@ -27,7 +27,7 @@
   "scripts": {
     "build": "build-ts lib",
     "check-all-for-ai": "yarn check-for-ai && yarn test --silent",
-    "check-for-ai": "yarn install > /dev/null && yarn format > /dev/null && yarn lint-fix --quiet && yarn typecheck",
+    "check-for-ai": "yarn install > /dev/null && yarn format > /dev/null 2> /dev/null || true && yarn lint-fix --quiet && yarn typecheck",
     "cleanup": "yarn format && yarn lint-fix",
     "format": "sort-package-json && yarn prettify",
     "postinstall": "husky || true",
@@ -36,7 +36,7 @@
     "prepack": "pinst --disable",
     "postpack": "pinst --enable",
     "prepare": "husky || true",
-    "prettify": "prettier --cache --color --write \"**/{.*/,}*.{cjs,css,cts,htm,html,js,json,json5,jsonc,jsx,md,mjs,mts,scss,ts,tsx,vue,yaml,yml}\" \"!**/test{-,/}fixtures/**\"",
+    "prettify": "prettier --cache --color --write \"**/{.*/,}*.{cjs,css,cts,htm,html,java,js,json,json5,jsonc,jsx,md,mjs,mts,scss,ts,tsx,vue,yaml,yml}\" \"!**/test{-,/}fixtures/**\"",
     "test": "vitest",
     "typecheck": "tsc --noEmit --Pretty"
   },
@@ -44,11 +44,11 @@
   "devDependencies": {
     "@types/eslint": "8.56.11",
     "@types/micromatch": "4.0.9",
-    "@willbooster/eslint-config-ts": "11.3.4",
-    "@willbooster/prettier-config": "10.1.3",
+    "@willbooster/eslint-config-ts": "11.4.0",
+    "@willbooster/prettier-config": "10.2.0",
     "build-ts": "15.0.8",
     "conventional-changelog-conventionalcommits": "9.0.0",
-    "eslint": "9.30.0",
+    "eslint": "9.30.1",
     "eslint-config-flat-gitignore": "2.1.0",
     "eslint-config-prettier": "10.1.5",
     "eslint-import-resolver-typescript": "4.4.4",

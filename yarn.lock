@@ -3405,13 +3405,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@willbooster/shared-lib-node@npm:7.0.0":
-  version: 7.0.0
-  resolution: "@willbooster/shared-lib-node@npm:7.0.0"
+"@willbooster/shared-lib-node@npm:7.0.1":
+  version: 7.0.1
+  resolution: "@willbooster/shared-lib-node@npm:7.0.1"
   dependencies:
-    dotenv: "npm:17.0.0"
+    dotenv: "npm:17.0.1"
     tree-kill: "npm:1.2.2"
-  checksum: 10c0/ab4cf42e2f623cfff39e0e334bdcdb33bc8a1066a8ee76b1277f3f4b3a279827bc5709c0c7712370b543c49847d8b3a0088da8cf7f6d2a39b8026594419129e4
+  checksum: 10c0/a9d3695ef3e1d5dd9fed1534658e352543d82ceb571ec094186316dced77c68e7be00662a17797adcc372ad21c8ecf45587a0ec1ec762d2e1bbbea2dfaf8f76d
   languageName: node
   linkType: hard
 
@@ -3724,9 +3724,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"build-ts@npm:15.0.10":
-  version: 15.0.10
-  resolution: "build-ts@npm:15.0.10"
+"build-ts@npm:15.0.11":
+  version: 15.0.11
+  resolution: "build-ts@npm:15.0.11"
   dependencies:
     "@babel/core": "npm:7.28.0"
     "@babel/plugin-proposal-decorators": "npm:7.28.0"
@@ -3743,7 +3743,7 @@ __metadata:
     "@rollup/plugin-replace": "npm:6.0.2"
     "@rollup/plugin-terser": "npm:0.4.4"
     "@rollup/pluginutils": "npm:5.2.0"
-    "@willbooster/shared-lib-node": "npm:7.0.0"
+    "@willbooster/shared-lib-node": "npm:7.0.1"
     babel-plugin-polyfill-corejs3: "npm:0.13.0"
     babel-plugin-transform-remove-console: "npm:6.9.4"
     chalk: "npm:5.4.1"
@@ -3764,7 +3764,7 @@ __metadata:
     yargs: "npm:18.0.0"
   bin:
     build-ts: bin/index.js
-  checksum: 10c0/99878b80ea92646420134dd8936bda54c0cf0387d31264dc52a137031303a7ec1c6ce59099f39ca859fc0063d9e17ae1edf2c4f4a1decb32268ff85e4d3f2843
+  checksum: 10c0/59de5b58306c7b5fc127381ad0681343f8775602d1d9e995f64644eb784a9ec19d6294df2e5612313980254f7fad03fbaa35d3cec78b432572cb031527d9c078
   languageName: node
   linkType: hard
 
@@ -4391,10 +4391,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:17.0.0":
-  version: 17.0.0
-  resolution: "dotenv@npm:17.0.0"
-  checksum: 10c0/961c9841529f691efb0547cf20b62c952b40e195ef23a254e6b3cd2487bd529b29e194ffcb1f97d4e6a0d9c2df9a6555464f2491da10e725c7bc40855c7b45af
+"dotenv@npm:17.0.1":
+  version: 17.0.1
+  resolution: "dotenv@npm:17.0.1"
+  checksum: 10c0/79d3381832ffc6ada0cab8158120c6190e8f8680c1ff985e9d4d1345229219923b23b800969ff47412a71f965da582c7a86a5ea0d257f9106f8f3522ceb5befa
   languageName: node
   linkType: hard
 
@@ -6463,7 +6463,7 @@ __metadata:
     "@types/micromatch": "npm:4.0.9"
     "@willbooster/eslint-config-ts": "npm:11.4.0"
     "@willbooster/prettier-config": "npm:10.2.0"
-    build-ts: "npm:15.0.10"
+    build-ts: "npm:15.0.11"
     conventional-changelog-conventionalcommits: "npm:9.0.0"
     eslint: "npm:9.30.1"
     eslint-config-flat-gitignore: "npm:2.1.0"

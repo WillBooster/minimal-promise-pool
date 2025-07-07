@@ -1,4 +1,4 @@
-# Project Information
+## Project Information
 
 - Name: minimal-promise-pool
 - Description: A minimal library for managing multiple promise instances (promise pool).

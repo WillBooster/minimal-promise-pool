@@ -3109,9 +3109,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@willbooster/eslint-config-ts@npm:11.4.3":
-  version: 11.4.3
-  resolution: "@willbooster/eslint-config-ts@npm:11.4.3"
+"@willbooster/eslint-config-ts@npm:11.4.5":
+  version: 11.4.5
+  resolution: "@willbooster/eslint-config-ts@npm:11.4.5"
   dependencies:
     "@willbooster/eslint-config-js": "npm:11.4.2"
   peerDependencies:
@@ -3128,7 +3128,7 @@ __metadata:
     globals: ">=16"
     typescript: ">=5"
     typescript-eslint: ">=8"
-  checksum: 10c0/ac308c9eb3d85be86c9c2cc357b2d29a34326bc825668f2a655bf7c51526b47983cfd52ec7f8e7b25dd70291e3d42c6f3f112248dfd9cfd0a9024f6b73d6b43d
+  checksum: 10c0/822b3bdd4bf736ca2e37de2a7735e100bfbdea94416fc5b0445029488cd5ddb30ef522be2482a109bfca203b6a4f78d6843ba00927c36d95a3c7c94def60f1fc
   languageName: node
   linkType: hard
 
@@ -6195,7 +6195,7 @@ __metadata:
   dependencies:
     "@types/eslint": "npm:8.56.11"
     "@types/micromatch": "npm:4.0.9"
-    "@willbooster/eslint-config-ts": "npm:11.4.3"
+    "@willbooster/eslint-config-ts": "npm:11.4.5"
     "@willbooster/prettier-config": "npm:10.2.0"
     build-ts: "npm:15.0.19"
     conventional-changelog-conventionalcommits: "npm:9.1.0"

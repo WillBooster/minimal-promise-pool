@@ -46,7 +46,7 @@
     "@types/micromatch": "4.0.9",
     "@willbooster/eslint-config-ts": "11.4.5",
     "@willbooster/prettier-config": "10.2.0",
-    "build-ts": "15.0.21",
+    "build-ts": "15.1.0",
     "conventional-changelog-conventionalcommits": "9.1.0",
     "eslint": "9.33.0",
     "eslint-config-flat-gitignore": "2.1.0",
@@ -67,7 +67,7 @@
     "semantic-release": "24.2.7",
     "sort-package-json": "3.4.0",
     "typescript": "5.9.2",
-    "typescript-eslint": "8.40.0",
+    "typescript-eslint": "8.41.0",
     "vitest": "3.2.4"
   },
   "packageManager": "yarn@4.9.3",

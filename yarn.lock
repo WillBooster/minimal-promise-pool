@@ -4627,9 +4627,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-unicorn@npm:60.0.0":
-  version: 60.0.0
-  resolution: "eslint-plugin-unicorn@npm:60.0.0"
+"eslint-plugin-unicorn@npm:61.0.0":
+  version: 61.0.0
+  resolution: "eslint-plugin-unicorn@npm:61.0.0"
   dependencies:
     "@babel/helper-validator-identifier": "npm:^7.27.1"
     "@eslint-community/eslint-utils": "npm:^4.7.0"
@@ -4651,7 +4651,7 @@ __metadata:
     strip-indent: "npm:^4.0.0"
   peerDependencies:
     eslint: ">=9.29.0"
-  checksum: 10c0/8411c0cf7c1c331e6c3f7ac30a8892d5ec8993e2b958ceda7a435167a7c9f7c94abf5ae03a8f04a70586bf0214041601b61d80db2fefbe70036c77501a57315b
+  checksum: 10c0/feb032331c0eb9c1ad1df9749e28a6debc80bde2dc8d9a609eaf455f230e9925da103467fe7eff6c09c307afc0388ea053f2fdb5b4c9f05224cfbaf68d66caa2
   languageName: node
   linkType: hard
 
@@ -6350,7 +6350,7 @@ __metadata:
     eslint-plugin-import-x: "npm:4.16.1"
     eslint-plugin-sort-class-members: "npm:1.21.0"
     eslint-plugin-sort-destructure-keys: "npm:2.0.0"
-    eslint-plugin-unicorn: "npm:60.0.0"
+    eslint-plugin-unicorn: "npm:61.0.0"
     eslint-plugin-unused-imports: "npm:4.2.0"
     globals: "npm:16.3.0"
     husky: "npm:9.1.7"

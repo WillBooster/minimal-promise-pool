@@ -59,7 +59,7 @@
     "eslint-plugin-unused-imports": "4.2.0",
     "globals": "16.4.0",
     "husky": "9.1.7",
-    "lint-staged": "16.1.6",
+    "lint-staged": "16.2.1",
     "micromatch": "4.0.8",
     "pinst": "3.0.0",
     "prettier": "3.6.2",
@@ -67,10 +67,10 @@
     "semantic-release": "24.2.9",
     "sort-package-json": "3.4.0",
     "typescript": "5.9.2",
-    "typescript-eslint": "8.44.0",
+    "typescript-eslint": "8.44.1",
     "vitest": "3.2.4"
   },
-  "packageManager": "yarn@4.10.0",
+  "packageManager": "yarn@4.10.3",
   "engines": {
     "node": ">=20"
   },

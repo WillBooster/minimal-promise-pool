@@ -173,22 +173,8 @@ test('promiseAllSettled() returns an array after all the promises are settled', 
   const results = await promise;
 
   expect(results).toHaveLength(2);
-  const firstResult = results[0];
-  if (!firstResult) {
-    throw new Error('Expected first promise to be defined');
-  }
-  if (firstResult.status !== 'fulfilled') {
-    throw new Error('Expected first promise to be fulfilled');
-  }
-  expect(firstResult.value).toBe(0);
-  const secondResult = results[1];
-  if (!secondResult) {
-    throw new Error('Expected second promise to be defined');
-  }
-  if (secondResult.status !== 'rejected') {
-    throw new Error('Expected second promise to be rejected');
-  }
-  expect(secondResult.reason).toBeInstanceOf(Error);
+  expect(results[0]?.status === 'fulfilled' && results[0].value).toBe(0);
+  expect(results[1]?.status === 'rejected' && results[1].reason).toBeInstanceOf(Error);
 
   expect(env.startedCount).toBe(2);
 
@@ -217,26 +203,22 @@ test('promiseCount returns the number of working promises', async () => {
 });
 
 test('runAndWaitForReturnValue returns the resolved value of a promise', async () => {
+  type Resolve = (value: number) => void;
+
   const promisePool = new PromisePool(2);
-  const resolves: ((value: number) => void)[] = [];
+  const resolves: Resolve[] = [];
   const promises = [
     new Promise((resolve) => resolves.push(resolve)),
     new Promise((resolve) => resolves.push(resolve)),
     new Promise((resolve) => resolves.push(resolve)),
   ];
-  const [promise0, promise1, promise2] = promises;
-  if (!promise0 || !promise1 || !promise2) {
-    throw new Error('Expected promises to be initialized');
-  }
+  const [promise0, promise1, promise2] = promises as [Promise<unknown>, Promise<unknown>, Promise<unknown>];
   const promiseAll = Promise.all([
     promisePool.runAndWaitForReturnValue(() => promise0),
     promisePool.runAndWaitForReturnValue(() => promise1),
     promisePool.runAndWaitForReturnValue(() => promise2),
   ]);
-  const [resolve0, resolve1, resolve2] = resolves;
-  if (!resolve0 || !resolve1 || !resolve2) {
-    throw new Error('Expected resolve handlers to be initialized');
-  }
+  const [resolve0, resolve1, resolve2] = resolves as [Resolve, Resolve, Resolve];
   resolve2(2);
   resolve1(1);
   resolve0(0);

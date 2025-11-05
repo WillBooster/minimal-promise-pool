@@ -173,8 +173,8 @@ test('promiseAllSettled() returns an array after all the promises are settled', 
   const results = await promise;
 
   expect(results).toHaveLength(2);
-  expect(results[0].status === 'fulfilled' && results[0].value).toBe(0);
-  expect(results[1].status === 'rejected' && results[1].reason).toBeInstanceOf(Error);
+  expect(results[0]?.status === 'fulfilled' && results[0].value).toBe(0);
+  expect(results[1]?.status === 'rejected' && results[1].reason).toBeInstanceOf(Error);
 
   expect(env.startedCount).toBe(2);
 
@@ -203,21 +203,25 @@ test('promiseCount returns the number of working promises', async () => {
 });
 
 test('runAndWaitForReturnValue returns the resolved value of a promise', async () => {
+  type Resolve = (value: number) => void;
+
   const promisePool = new PromisePool(2);
-  const resolves: ((value: number) => void)[] = [];
+  const resolves: Resolve[] = [];
   const promises = [
     new Promise((resolve) => resolves.push(resolve)),
     new Promise((resolve) => resolves.push(resolve)),
     new Promise((resolve) => resolves.push(resolve)),
   ];
+  const [promise0, promise1, promise2] = promises as [Promise<unknown>, Promise<unknown>, Promise<unknown>];
   const promiseAll = Promise.all([
-    promisePool.runAndWaitForReturnValue(() => promises[0]),
-    promisePool.runAndWaitForReturnValue(() => promises[1]),
-    promisePool.runAndWaitForReturnValue(() => promises[2]),
+    promisePool.runAndWaitForReturnValue(() => promise0),
+    promisePool.runAndWaitForReturnValue(() => promise1),
+    promisePool.runAndWaitForReturnValue(() => promise2),
   ]);
-  resolves[2](2);
-  resolves[1](1);
-  resolves[0](0);
+  const [resolve0, resolve1, resolve2] = resolves as [Resolve, Resolve, Resolve];
+  resolve2(2);
+  resolve1(1);
+  resolve0(0);
   expect(await promiseAll).toEqual([0, 1, 2]);
 });
 

@@ -173,8 +173,22 @@ test('promiseAllSettled() returns an array after all the promises are settled', 
   const results = await promise;
 
   expect(results).toHaveLength(2);
-  expect(results[0].status === 'fulfilled' && results[0].value).toBe(0);
-  expect(results[1].status === 'rejected' && results[1].reason).toBeInstanceOf(Error);
+  const firstResult = results[0];
+  if (!firstResult) {
+    throw new Error('Expected first promise to be defined');
+  }
+  if (firstResult.status !== 'fulfilled') {
+    throw new Error('Expected first promise to be fulfilled');
+  }
+  expect(firstResult.value).toBe(0);
+  const secondResult = results[1];
+  if (!secondResult) {
+    throw new Error('Expected second promise to be defined');
+  }
+  if (secondResult.status !== 'rejected') {
+    throw new Error('Expected second promise to be rejected');
+  }
+  expect(secondResult.reason).toBeInstanceOf(Error);
 
   expect(env.startedCount).toBe(2);
 
@@ -204,20 +218,28 @@ test('promiseCount returns the number of working promises', async () => {
 
 test('runAndWaitForReturnValue returns the resolved value of a promise', async () => {
   const promisePool = new PromisePool(2);
-  const resolves: ((value: number) => void)[] = [];
-  const promises = [
-    new Promise((resolve) => resolves.push(resolve)),
-    new Promise((resolve) => resolves.push(resolve)),
-    new Promise((resolve) => resolves.push(resolve)),
+  const resolves: ((value: number | PromiseLike<number>) => void)[] = [];
+  const promises: Promise<number>[] = [
+    new Promise<number>((resolve) => resolves.push(resolve)),
+    new Promise<number>((resolve) => resolves.push(resolve)),
+    new Promise<number>((resolve) => resolves.push(resolve)),
   ];
+  const [promise0, promise1, promise2] = promises;
+  if (!promise0 || !promise1 || !promise2) {
+    throw new Error('Expected promises to be initialized');
+  }
   const promiseAll = Promise.all([
-    promisePool.runAndWaitForReturnValue(() => promises[0]),
-    promisePool.runAndWaitForReturnValue(() => promises[1]),
-    promisePool.runAndWaitForReturnValue(() => promises[2]),
+    promisePool.runAndWaitForReturnValue(() => promise0),
+    promisePool.runAndWaitForReturnValue(() => promise1),
+    promisePool.runAndWaitForReturnValue(() => promise2),
   ]);
-  resolves[2](2);
-  resolves[1](1);
-  resolves[0](0);
+  const [resolve0, resolve1, resolve2] = resolves;
+  if (!resolve0 || !resolve1 || !resolve2) {
+    throw new Error('Expected resolve handlers to be initialized');
+  }
+  resolve2(2);
+  resolve1(1);
+  resolve0(0);
   expect(await promiseAll).toEqual([0, 1, 2]);
 });
 

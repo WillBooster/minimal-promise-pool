@@ -218,11 +218,11 @@ test('promiseCount returns the number of working promises', async () => {
 
 test('runAndWaitForReturnValue returns the resolved value of a promise', async () => {
   const promisePool = new PromisePool(2);
-  const resolves: ((value: number | PromiseLike<number>) => void)[] = [];
-  const promises: Promise<number>[] = [
-    new Promise<number>((resolve) => resolves.push(resolve)),
-    new Promise<number>((resolve) => resolves.push(resolve)),
-    new Promise<number>((resolve) => resolves.push(resolve)),
+  const resolves: ((value: number) => void)[] = [];
+  const promises = [
+    new Promise((resolve) => resolves.push(resolve)),
+    new Promise((resolve) => resolves.push(resolve)),
+    new Promise((resolve) => resolves.push(resolve)),
   ];
   const [promise0, promise1, promise2] = promises;
   if (!promise0 || !promise1 || !promise2) {

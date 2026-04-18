@@ -143,6 +143,119 @@ test('increase concurrency during task', async () => {
   expect(env.finishedCount).toBe(3);
 });
 
+test('increase concurrency starts one queued task per newly available slot', async () => {
+  const env = new TestEnvironment(1);
+
+  const [resolve1] = await env.runTask();
+  const promise2 = env.runTask();
+  const promise3 = env.runTask();
+
+  await waitForMicrotasks();
+  expect(env.startedCount).toBe(1);
+
+  env.promisePool.concurrency = 3;
+  const [[resolve2], [resolve3]] = await Promise.all([promise2, promise3]);
+
+  expect(env.startedCount).toBe(3);
+  expect(env.finishedCount).toBe(0);
+
+  resolve1();
+  resolve2();
+  resolve3();
+  await env.promisePool.promiseAll();
+
+  expect(env.finishedCount).toBe(3);
+});
+
+test('decrease concurrency cancels stale reservations before queued tasks start', async () => {
+  const env = new TestEnvironment(1);
+
+  const [resolve1] = await env.runTask();
+  const promise2 = env.runTask();
+  const promise3 = env.runTask();
+
+  await waitForMicrotasks();
+  env.promisePool.concurrency = 3;
+  env.promisePool.concurrency = 1;
+  await waitForMicrotasks();
+
+  expect(env.startedCount).toBe(1);
+  expect(env.promisePool.workingPromiseCount).toBe(1);
+
+  resolve1();
+  const [resolve2] = await promise2;
+  await waitForMicrotasks();
+
+  expect(env.startedCount).toBe(2);
+  expect(env.promisePool.workingPromiseCount).toBe(1);
+
+  resolve2();
+  const [resolve3] = await promise3;
+  resolve3();
+  await env.promisePool.promiseAll();
+
+  expect(env.startedCount).toBe(3);
+  expect(env.finishedCount).toBe(3);
+});
+
+test('run releases queue count and capacity when startPromise throws', async () => {
+  const env = new TestEnvironment(1);
+
+  await expect(
+    env.promisePool.run(() => {
+      throw new Error('start failed');
+    })
+  ).rejects.toThrow('start failed');
+  expect(env.promisePool.queuedPromiseCount).toBe(0);
+
+  const [resolve] = await env.runTask();
+  expect(env.startedCount).toBe(1);
+
+  resolve();
+  await env.promisePool.promiseAll();
+  expect(env.finishedCount).toBe(1);
+});
+
+test('run compacts consumed waiter queue slots under sustained load', async () => {
+  const env = new TestEnvironment(1);
+  const [resolveFirst] = await env.runTask();
+  const runningResolves = [resolveFirst];
+  const pendingTasks = [env.runTask(), env.runTask()];
+
+  await waitForMicrotasks();
+  for (let i = 0; i < 512; i++) {
+    const resolve = runningResolves.shift();
+    if (!resolve) throw new Error('running task should exist');
+
+    resolve();
+    const pendingTask = pendingTasks.shift();
+    if (!pendingTask) throw new Error('pending task should exist');
+
+    const [resolveNext] = await pendingTask;
+    runningResolves.push(resolveNext);
+    pendingTasks.push(env.runTask());
+  }
+
+  await waitForMicrotasks();
+  const internals = env.promisePool as unknown as PromisePoolInternals;
+  expect(internals.resumeFunctions.length).toBeLessThan(300);
+  expect(internals.resumeFunctionIndex).toBeLessThan(300);
+
+  while (pendingTasks.length > 0) {
+    const resolveRunning = runningResolves.shift();
+    const pendingTask = pendingTasks.shift();
+    if (!resolveRunning || !pendingTask) throw new Error('task should exist');
+
+    resolveRunning();
+    const [resolve] = await pendingTask;
+    runningResolves.push(resolve);
+  }
+  for (const resolve of runningResolves) {
+    resolve();
+  }
+  await env.promisePool.promiseAll();
+});
+
 test('promiseAll() returns a rejected promise immediately after one of promises is rejected', async () => {
   const env = new TestEnvironment(2);
 
@@ -227,6 +340,10 @@ test('runAndWaitForReturnValue returns the resolved value of a promise', async (
 
 type ResolveFunction = (value?: unknown) => void;
 type RejectFunction = (reason?: unknown) => void;
+interface PromisePoolInternals {
+  resumeFunctions: unknown[];
+  resumeFunctionIndex: number;
+}
 
 class TestEnvironment {
   promisePool: PromisePool;
@@ -257,4 +374,9 @@ class TestEnvironment {
 
 async function sleep(milliseconds: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
+}
+
+async function waitForMicrotasks(): Promise<void> {
+  await Promise.resolve();
+  await Promise.resolve();
 }

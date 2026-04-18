@@ -1,7 +1,8 @@
 export class PromisePool<T = unknown> {
   private readonly promises: Set<Promise<T>>;
-  private waitingPromise: Promise<void> | undefined;
-  private resumeFunction: (() => void) | undefined;
+  private readonly resumeFunctions: Array<(() => void) | undefined>;
+  private resumeFunctionIndex: number;
+  private reservedPromiseCount: number;
   private _concurrency: number;
   private _queuedPromiseCount: number;
 
@@ -9,6 +10,9 @@ export class PromisePool<T = unknown> {
     this._concurrency = concurrency;
     this._queuedPromiseCount = 0;
     this.promises = new Set();
+    this.resumeFunctions = [];
+    this.resumeFunctionIndex = 0;
+    this.reservedPromiseCount = 0;
   }
 
   get workingPromiseCount(): number {
@@ -32,17 +36,11 @@ export class PromisePool<T = unknown> {
   }
 
   promiseAll(): Promise<T[]> {
-    return Promise.all(this.promises.values());
+    return Promise.all(this.promises);
   }
 
   promiseAllSettled(): Promise<PromiseSettledResult<T>[]> {
-    return Promise.all(
-      [...this.promises.values()].map((promise: Promise<T>) =>
-        promise
-          .then((value) => ({ status: 'fulfilled', value }) as PromiseFulfilledResult<T>)
-          .catch((error: unknown) => ({ status: 'rejected', reason: error }) as PromiseRejectedResult)
-      )
-    );
+    return Promise.allSettled(this.promises);
   }
 
   async run(startPromise: () => Promise<T>): Promise<void> {
@@ -57,27 +55,66 @@ export class PromisePool<T = unknown> {
 
   private async privateRunAndWaitForReturnValue<R extends T>(startPromise: () => Promise<R>): Promise<[Promise<R>]> {
     this._queuedPromiseCount++;
-    while (this.promises.size >= this._concurrency) {
-      this.waitingPromise ??= new Promise<void>((resolve) => {
-        this.resumeFunction = resolve;
+    await this.waitForCapacity();
+
+    let promise: Promise<R>;
+    try {
+      promise = startPromise().finally(() => {
+        this._queuedPromiseCount--;
+        this.promises.delete(promise);
+        this.resume();
       });
-      await this.waitingPromise;
-    }
-    const promise = startPromise().finally(() => {
+    } catch (error) {
       this._queuedPromiseCount--;
-      this.promises.delete(promise);
+      this.reservedPromiseCount--;
       this.resume();
-    });
+      throw error;
+    }
+
+    this.reservedPromiseCount--;
     this.promises.add(promise);
     // Don't return the promise as is since run() wants to ignore the return value.
     return [promise];
   }
 
-  private resume(): void {
-    if (!this.resumeFunction) return;
+  private async waitForCapacity(): Promise<void> {
+    while (!this.hasCapacity()) {
+      await new Promise<void>((resolve) => {
+        this.resumeFunctions.push(resolve);
+      });
 
-    this.resumeFunction();
-    this.waitingPromise = undefined;
-    this.resumeFunction = undefined;
+      if (this.promises.size + this.reservedPromiseCount <= this._concurrency) {
+        return;
+      }
+
+      this.reservedPromiseCount--;
+    }
+
+    this.reservedPromiseCount++;
+  }
+
+  private resume(): void {
+    while (this.hasCapacity()) {
+      const resumeFunctionIndex = this.resumeFunctionIndex;
+      const resumeFunction = this.resumeFunctions[resumeFunctionIndex];
+      if (!resumeFunction) break;
+
+      this.resumeFunctionIndex++;
+      this.resumeFunctions[resumeFunctionIndex] = undefined;
+      this.reservedPromiseCount++;
+      resumeFunction();
+    }
+
+    if (this.resumeFunctionIndex === this.resumeFunctions.length) {
+      this.resumeFunctions.length = 0;
+      this.resumeFunctionIndex = 0;
+    } else if (this.resumeFunctionIndex >= 256 && this.resumeFunctionIndex >= this.resumeFunctions.length / 2) {
+      this.resumeFunctions.splice(0, this.resumeFunctionIndex);
+      this.resumeFunctionIndex = 0;
+    }
+  }
+
+  private hasCapacity(): boolean {
+    return this.promises.size + this.reservedPromiseCount < this._concurrency;
   }
 }

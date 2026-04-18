@@ -167,6 +167,37 @@ test('increase concurrency starts one queued task per newly available slot', asy
   expect(env.finishedCount).toBe(3);
 });
 
+test('decrease concurrency cancels stale reservations before queued tasks start', async () => {
+  const env = new TestEnvironment(1);
+
+  const [resolve1] = await env.runTask();
+  const promise2 = env.runTask();
+  const promise3 = env.runTask();
+
+  await waitForMicrotasks();
+  env.promisePool.concurrency = 3;
+  env.promisePool.concurrency = 1;
+  await waitForMicrotasks();
+
+  expect(env.startedCount).toBe(1);
+  expect(env.promisePool.workingPromiseCount).toBe(1);
+
+  resolve1();
+  const [resolve2] = await promise2;
+  await waitForMicrotasks();
+
+  expect(env.startedCount).toBe(2);
+  expect(env.promisePool.workingPromiseCount).toBe(1);
+
+  resolve2();
+  const [resolve3] = await promise3;
+  resolve3();
+  await env.promisePool.promiseAll();
+
+  expect(env.startedCount).toBe(3);
+  expect(env.finishedCount).toBe(3);
+});
+
 test('run releases queue count and capacity when startPromise throws', async () => {
   const env = new TestEnvironment(1);
 

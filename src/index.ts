@@ -78,14 +78,19 @@ export class PromisePool<T = unknown> {
   }
 
   private async waitForCapacity(): Promise<void> {
-    if (this.hasCapacity()) {
-      this.reservedPromiseCount++;
-      return;
+    while (!this.hasCapacity()) {
+      await new Promise<void>((resolve) => {
+        this.resumeFunctions.push(resolve);
+      });
+
+      if (this.promises.size + this.reservedPromiseCount <= this._concurrency) {
+        return;
+      }
+
+      this.reservedPromiseCount--;
     }
 
-    await new Promise<void>((resolve) => {
-      this.resumeFunctions.push(resolve);
-    });
+    this.reservedPromiseCount++;
   }
 
   private resume(): void {

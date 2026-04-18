@@ -1,6 +1,6 @@
 export class PromisePool<T = unknown> {
   private readonly promises: Set<Promise<T>>;
-  private readonly resumeFunctions: Array<() => void>;
+  private readonly resumeFunctions: Array<(() => void) | undefined>;
   private resumeFunctionIndex: number;
   private reservedPromiseCount: number;
   private _concurrency: number;
@@ -90,16 +90,21 @@ export class PromisePool<T = unknown> {
 
   private resume(): void {
     while (this.hasCapacity()) {
-      const resumeFunction = this.resumeFunctions[this.resumeFunctionIndex];
+      const resumeFunctionIndex = this.resumeFunctionIndex;
+      const resumeFunction = this.resumeFunctions[resumeFunctionIndex];
       if (!resumeFunction) break;
 
       this.resumeFunctionIndex++;
+      this.resumeFunctions[resumeFunctionIndex] = undefined;
       this.reservedPromiseCount++;
       resumeFunction();
     }
 
     if (this.resumeFunctionIndex === this.resumeFunctions.length) {
       this.resumeFunctions.length = 0;
+      this.resumeFunctionIndex = 0;
+    } else if (this.resumeFunctionIndex >= 256 && this.resumeFunctionIndex >= this.resumeFunctions.length / 2) {
+      this.resumeFunctions.splice(0, this.resumeFunctionIndex);
       this.resumeFunctionIndex = 0;
     }
   }

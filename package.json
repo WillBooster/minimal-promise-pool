@@ -50,7 +50,7 @@
     "@typescript/native-preview": "7.0.0-dev.20260421.2",
     "@willbooster/oxfmt-config": "1.2.1",
     "@willbooster/oxlint-config": "1.4.4",
-    "build-ts": "17.1.6",
+    "build-ts": "17.1.8",
     "conventional-changelog-conventionalcommits": "9.3.1",
     "lefthook": "2.1.6",
     "oxfmt": "0.45.0",

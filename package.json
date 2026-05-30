@@ -46,7 +46,7 @@
     "@types/node": "25.9.1",
     "@typescript/native-preview": "7.0.0-dev.20260524.1",
     "@willbooster/oxfmt-config": "1.2.2",
-    "@willbooster/oxlint-config": "1.4.6",
+    "@willbooster/oxlint-config": "1.4.7",
     "@willbooster/wb": "13.20.1",
     "build-ts": "17.1.18",
     "conventional-changelog-conventionalcommits": "9.3.1",

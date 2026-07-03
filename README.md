@@ -124,8 +124,14 @@ Creates a pool that runs at most `concurrency` tasks concurrently.
 
 ### Error handling
 
-A rejection from a task passed to `run()` is not reported through `run()`'s returned promise (which only signals that the task started).
-Use `runAndWaitForReturnValue()` to receive rejections directly, or `promiseAllSettled()` to collect them in bulk.
+A rejection from a task passed to `run()` is not reported through `run()`'s returned promise (which only signals that the task started), and it becomes an unhandled promise rejection unless something else observes it.
+`promiseAll()` and `promiseAllSettled()` cover only the tasks still running at the moment of the call — a task that has already settled is removed from the pool, so a later call cannot collect its rejection.
+
+When you need task outcomes reliably, use `runAndWaitForReturnValue()` and collect the returned promises yourself:
+
+```ts
+const outcomes = await Promise.allSettled(tasks.map((task) => promisePool.runAndWaitForReturnValue(task)));
+```
 
 ## License
 

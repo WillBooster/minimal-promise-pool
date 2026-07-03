@@ -107,20 +107,20 @@ Creates a pool that runs at most `concurrency` tasks concurrently.
 
 ### Methods
 
-| Method                                | Returns                             | Description                                                                                          |
-| ------------------------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `run(startPromise)`                    | `Promise<void>`                     | Runs the task when the pool has capacity. Resolves once the task has started.                        |
-| `runAndWaitForReturnValue(startPromise)` | `Promise<R>`                        | Like `run()`, but resolves with the task's return value (and rejects if the task throws).            |
-| `promiseAll()`                         | `Promise<T[]>`                      | `Promise.all()` over the currently running tasks.                                                    |
-| `promiseAllSettled()`                  | `Promise<PromiseSettledResult<T>[]>` | `Promise.allSettled()` over the currently running tasks.                                             |
+| Method                                   | Returns                              | Description                                                                               |
+| ---------------------------------------- | ------------------------------------ | ----------------------------------------------------------------------------------------- |
+| `run(startPromise)`                      | `Promise<void>`                      | Runs the task when the pool has capacity. Resolves once the task has started.             |
+| `runAndWaitForReturnValue(startPromise)` | `Promise<R>`                         | Like `run()`, but resolves with the task's return value (and rejects if the task throws). |
+| `promiseAll()`                           | `Promise<T[]>`                       | `Promise.all()` over the currently running tasks.                                         |
+| `promiseAllSettled()`                    | `Promise<PromiseSettledResult<T>[]>` | `Promise.allSettled()` over the currently running tasks.                                  |
 
 ### Properties
 
-| Property              | Type     | Description                                                                     |
-| --------------------- | -------- | ------------------------------------------------------------------------------- |
+| Property              | Type     | Description                                                                         |
+| --------------------- | -------- | ----------------------------------------------------------------------------------- |
 | `concurrency`         | `number` | The maximum number of concurrent tasks. Writable; increasing it wakes queued tasks. |
-| `workingPromiseCount` | `number` | The number of currently running tasks.                                          |
-| `queuedPromiseCount`  | `number` | The number of tasks that have been submitted but not yet finished.               |
+| `workingPromiseCount` | `number` | The number of currently running tasks.                                              |
+| `queuedPromiseCount`  | `number` | The number of tasks that have been submitted but not yet finished.                  |
 
 ### Error handling
 

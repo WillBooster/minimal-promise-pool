@@ -47,12 +47,12 @@
     "@types/node": "25.9.5",
     "@willbooster/oxfmt-config": "1.2.2",
     "@willbooster/oxlint-config": "1.4.8",
-    "@willbooster/wb": "15.3.0",
-    "build-ts": "19.0.0",
+    "@willbooster/wb": "18.0.1",
+    "build-ts": "20.0.0",
     "conventional-changelog-conventionalcommits": "9.3.1",
     "lefthook": "2.1.10",
-    "oxfmt": "0.59.0",
-    "oxlint": "1.74.0",
+    "oxfmt": "0.60.0",
+    "oxlint": "1.75.0",
     "oxlint-tsgolint": "7.0.2001",
     "semantic-release": "25.0.7",
     "sort-package-json": "4.0.0",
@@ -63,6 +63,7 @@
     "node": ">=24"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

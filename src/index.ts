@@ -1,6 +1,16 @@
 // Shared by all fast-path run() calls to avoid allocating a new promise per call.
 const RESOLVED_PROMISE = Promise.resolve();
 
+/**
+ * A long-lived pool that caps how many tasks run at the same time, e.g., one pool shared across calls to limit
+ * process-wide concurrency. Queued tasks start in submission order.
+ *
+ * `run()` resolves when a task **starts**, not when it finishes. To wait for tasks to finish, call `promiseAll()` /
+ * `promiseAllSettled()` after submitting them, or use `runAndWaitForReturnValue()`.
+ *
+ * For a one-shot "run an action for every item with at most N in flight" loop, prefer `forEachConcurrently()` from
+ * `@willbooster/shared-lib`, which waits for every item and stops starting new items after the first error.
+ */
 export class PromisePool<T = unknown> {
   private readonly promises: Set<Promise<T>>;
   private readonly resumeFunctions: Array<(() => void) | undefined>;
@@ -9,6 +19,7 @@ export class PromisePool<T = unknown> {
   private _concurrency: number;
   private _queuedPromiseCount: number;
 
+  /** @param concurrency The maximum number of tasks running at the same time. */
   constructor(concurrency = 10) {
     this._concurrency = concurrency;
     this._queuedPromiseCount = 0;
@@ -18,10 +29,16 @@ export class PromisePool<T = unknown> {
     this.reservedPromiseCount = 0;
   }
 
+  /** The number of tasks that have started and not yet settled. */
   get workingPromiseCount(): number {
     return this.promises.size;
   }
 
+  /**
+   * The maximum number of tasks running at the same time.
+   * Lowering it does not stop running tasks; it only delays starting queued ones.
+   * Raising it starts queued tasks immediately up to the new limit.
+   */
   get concurrency(): number {
     return this._concurrency;
   }
@@ -34,18 +51,38 @@ export class PromisePool<T = unknown> {
     }
   }
 
+  /** The number of tasks submitted and not yet settled, including both waiting and running tasks. */
   get queuedPromiseCount(): number {
     return this._queuedPromiseCount;
   }
 
+  /**
+   * Returns `Promise.all()` over the tasks running at the time of the call, so it rejects with the first of their
+   * errors. Tasks still waiting for a slot and tasks that already settled are not included.
+   */
   promiseAll(): Promise<T[]> {
     return Promise.all(this.promises);
   }
 
+  /**
+   * Returns `Promise.allSettled()` over the tasks running at the time of the call.
+   * Tasks still waiting for a slot and tasks that already settled are not included.
+   */
   promiseAllSettled(): Promise<PromiseSettledResult<T>[]> {
     return Promise.allSettled(this.promises);
   }
 
+  /**
+   * Starts `startPromise` once the pool has a free slot.
+   *
+   * The returned promise resolves when the task **starts**, not when it finishes, so awaiting it only waits for a free
+   * slot. It rejects only when `startPromise` throws synchronously. Awaiting `run()` for every task and then calling
+   * `promiseAll()` or `promiseAllSettled()` waits until every task finishes.
+   *
+   * A rejection of the task itself is observable only through `promiseAll()` / `promiseAllSettled()` called while the
+   * task is running; otherwise it becomes an unhandled rejection. Use `runAndWaitForReturnValue()` to handle each
+   * task's result or error reliably.
+   */
   run(startPromise: () => Promise<T>): Promise<void> {
     this._queuedPromiseCount++;
     // Start the task synchronously when the pool has capacity to avoid the
@@ -61,6 +98,10 @@ export class PromisePool<T = unknown> {
     return this.runQueued(startPromise);
   }
 
+  /**
+   * Starts `startPromise` once the pool has a free slot, and returns a promise that settles with the task's result:
+   * it resolves with the task's value or rejects with its error.
+   */
   runAndWaitForReturnValue<R extends T>(startPromise: () => Promise<R>): Promise<R> {
     this._queuedPromiseCount++;
     if (this.tryReserveCapacity()) {

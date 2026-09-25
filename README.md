@@ -14,7 +14,7 @@ For example, `new PromisePool(2)` runs at most two tasks at the same time and qu
 - **Minimal** — a single class with no runtime dependencies.
 - **Typed** — written in TypeScript with full type definitions.
 - **Dual package** — ships both ESM and CommonJS builds.
-- **FIFO scheduling** — queued tasks start in the order they were submitted.
+- **FIFO scheduling** — queued tasks start in the order they were submitted, unless `concurrency` is lowered right after being raised.
 - **Adjustable concurrency** — change the limit at runtime; the pool adapts immediately.
 
 ## When to use
@@ -58,7 +58,7 @@ for (const name of ['First', 'Second', 'Third']) {
     console.log(`${name} task finished`);
   });
 }
-// Waits until the running tasks finish.
+// Waits for every task running in the pool.
 await promisePool.promiseAll();
 console.log('All tasks finished');
 ```
@@ -98,9 +98,10 @@ await Promise.all(items.map((item) => promisePool.run(() => process(item))));
 Wait for completion in one of these ways:
 
 - Collect the promises returned by `runAndWaitForReturnValue()` and wait for them with `Promise.allSettled()`.
-  This works whether or not tasks may fail.
+  This works whether or not tasks may fail, and waits only for your own tasks even on a pool shared with other callers.
 - Await `run()` for every task, then call `await promisePool.promiseAllSettled()`.
   Use this only for tasks that never reject, e.g., tasks that catch their own errors.
+  `promiseAllSettled()` also waits for tasks other callers submitted to the same pool.
   A task that rejects before `promiseAllSettled()` is called is not covered and becomes an unhandled rejection (see [Error handling](#error-handling)).
 
 `promiseAll()` and `Promise.all()` reject as soon as one task fails, while other tasks may still be running.
@@ -115,7 +116,7 @@ Use `runAndWaitForReturnValue()` when you need the task's result (or its error):
 ```ts
 const promisePool = new PromisePool(5);
 
-const results = await Promise.all(
+const outcomes = await Promise.allSettled(
   urls.map((url) => promisePool.runAndWaitForReturnValue(async () => (await fetch(url)).json()))
 );
 ```
@@ -130,7 +131,7 @@ await promisePool.promiseAll();
 const outcomes = await promisePool.promiseAllSettled();
 ```
 
-Both cover only the tasks running at the moment of the call.
+Both cover every task running in the pool at the moment of the call, including tasks other callers submitted.
 Tasks still waiting for a slot and tasks that have already settled are not included.
 
 ### Adjusting concurrency at runtime

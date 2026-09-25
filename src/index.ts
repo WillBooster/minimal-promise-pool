@@ -5,8 +5,9 @@ const RESOLVED_PROMISE = Promise.resolve();
  * A long-lived pool that caps how many tasks run at the same time, e.g., one pool shared across calls to limit
  * process-wide concurrency. Queued tasks start in submission order.
  *
- * `run()` resolves when a task **starts**, not when it finishes. To wait for tasks to finish, call
- * `promiseAllSettled()` after submitting them, or use `runAndWaitForReturnValue()`.
+ * `run()` resolves when a task **starts**, not when it finishes. To wait for tasks to finish, pass the promises
+ * returned by `runAndWaitForReturnValue()` to `Promise.allSettled()`. For tasks that never reject, awaiting `run()`
+ * for every task and then calling `promiseAllSettled()` also works.
  *
  * For a one-shot "run an action for every item with at most N in flight" loop, prefer `forEachConcurrently()` from
  * `@willbooster/shared-lib`, which waits for every item and stops starting new items after the first error.
@@ -77,8 +78,8 @@ export class PromisePool<T = unknown> {
    * Starts `startPromise` once the pool has a free slot.
    *
    * The returned promise resolves when the task **starts**, not when it finishes, so awaiting it only waits for a free
-   * slot. It rejects only when `startPromise` throws synchronously. Awaiting `run()` for every task and then calling
-   * `promiseAllSettled()` waits until every task finishes; `promiseAll()` rejects as soon as one task fails.
+   * slot. It rejects only when `startPromise` throws synchronously. For tasks that never reject, awaiting `run()` for
+   * every task and then calling `promiseAllSettled()` waits until every task finishes.
    *
    * A rejection of the task itself is observable only through `promiseAll()` / `promiseAllSettled()` called while the
    * task is running; otherwise it becomes an unhandled rejection. Use `runAndWaitForReturnValue()` to handle each

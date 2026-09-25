@@ -97,8 +97,11 @@ await Promise.all(items.map((item) => promisePool.run(() => process(item))));
 
 Wait for completion in one of these ways:
 
-- Await `run()` for every task, then call `await promisePool.promiseAllSettled()`.
 - Collect the promises returned by `runAndWaitForReturnValue()` and wait for them with `Promise.allSettled()`.
+  This works whether or not tasks may fail.
+- Await `run()` for every task, then call `await promisePool.promiseAllSettled()`.
+  Use this only for tasks that never reject, e.g., tasks that catch their own errors.
+  A task that rejects before `promiseAllSettled()` is called is not covered and becomes an unhandled rejection (see [Error handling](#error-handling)).
 
 `promiseAll()` and `Promise.all()` reject as soon as one task fails, while other tasks may still be running.
 Use them only when the caller may continue before the remaining tasks finish.

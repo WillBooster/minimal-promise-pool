@@ -14,8 +14,23 @@ For example, `new PromisePool(2)` runs at most two tasks at the same time and qu
 - **Minimal** — a single class with no runtime dependencies.
 - **Typed** — written in TypeScript with full type definitions.
 - **Dual package** — ships both ESM and CommonJS builds.
-- **FIFO scheduling** — queued tasks start in the order they were submitted.
+- **FIFO scheduling** — queued tasks start in the order they were submitted, unless `concurrency` is lowered while queued tasks are being woken up; a woken task that loses its slot goes behind later tasks.
 - **Adjustable concurrency** — change the limit at runtime; the pool adapts immediately.
+
+## When to use
+
+`PromisePool` fits a long-lived pool shared across calls, such as a process-wide cap on concurrent requests to an external service, optionally with a limit adjusted at runtime.
+
+For a one-shot loop that runs an action for every item with at most N in flight, prefer `forEachConcurrently()` from [`@willbooster/shared-lib`](https://www.npmjs.com/package/@willbooster/shared-lib).
+It waits for every item, stops starting new items after the first error, and then rejects with that error.
+
+```ts
+import { forEachConcurrently } from '@willbooster/shared-lib';
+
+await forEachConcurrently(urls, 5, async (url) => {
+  await fetch(url);
+});
+```
 
 ## Installation
 
@@ -35,21 +50,17 @@ import { PromisePool } from 'minimal-promise-pool';
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const promisePool = new PromisePool(2);
-await promisePool.run(async () => {
-  console.log('First task started');
-  await sleep(10_000);
-  console.log('First task finished');
-});
-await promisePool.run(async () => {
-  console.log('Second task started');
-  await sleep(10_000);
-  console.log('Second task finished');
-});
-await promisePool.run(async () => {
-  console.log('Third task started');
-  await sleep(10_000);
-  console.log('Third task finished');
-});
+for (const name of ['First', 'Second', 'Third']) {
+  // Resolves when the task starts, so this waits only while the pool is full.
+  await promisePool.run(async () => {
+    console.log(`${name} task started`);
+    await sleep(10_000);
+    console.log(`${name} task finished`);
+  });
+}
+// Waits for every task running in the pool.
+await promisePool.promiseAll();
+console.log('All tasks finished');
 ```
 
 Output:
@@ -63,10 +74,38 @@ Third task started
 Second task finished
 # ... about 10 seconds ...
 Third task finished
+All tasks finished
 ```
 
-Note that `run()` resolves when the task **starts**, not when it finishes.
-`await promisePool.run(...)` therefore applies backpressure: it pauses the caller only while the pool is full.
+## `run()` resolves when the task starts
+
+`run()` resolves when the task **starts**, not when it finishes.
+`await promisePool.run(...)` therefore only waits for a free slot.
+Without a later `promiseAll()` or `promiseAllSettled()`, the caller continues while tasks are still running:
+
+```ts
+// Wrong: the function returns before the tasks finish.
+async function processAll(items: Item[]): Promise<void> {
+  for (const item of items) {
+    await promisePool.run(() => process(item));
+  }
+}
+
+// Also wrong: Promise.all() waits only until every task has started.
+await Promise.all(items.map((item) => promisePool.run(() => process(item))));
+```
+
+Wait for completion in one of these ways:
+
+- Collect the promises returned by `runAndWaitForReturnValue()` and wait for them with `Promise.allSettled()`.
+  This works whether or not tasks may fail, and waits only for your own tasks even on a pool shared with other callers.
+- Await `run()` for every task, then call `await promisePool.promiseAllSettled()`.
+  Use this only for tasks that never reject, e.g., tasks that catch their own errors.
+  `promiseAllSettled()` also waits for tasks other callers submitted to the same pool.
+  A task that rejects before `promiseAllSettled()` is called is not covered and becomes an unhandled rejection (see [Error handling](#error-handling)).
+
+`promiseAll()` and `Promise.all()` reject as soon as one task fails, while other tasks may still be running.
+Use them only when the caller may continue before the remaining tasks finish.
 
 ## Usage
 
@@ -77,7 +116,7 @@ Use `runAndWaitForReturnValue()` when you need the task's result (or its error):
 ```ts
 const promisePool = new PromisePool(5);
 
-const results = await Promise.all(
+const outcomes = await Promise.allSettled(
   urls.map((url) => promisePool.runAndWaitForReturnValue(async () => (await fetch(url)).json()))
 );
 ```
@@ -85,12 +124,15 @@ const results = await Promise.all(
 ### Waiting for all running tasks
 
 ```ts
-// Waits for all currently running tasks; rejects if any of them fails.
+// Waits for all currently running tasks, but rejects as soon as one of them fails.
 await promisePool.promiseAll();
 
 // Waits for all currently running tasks and collects each outcome.
 const outcomes = await promisePool.promiseAllSettled();
 ```
+
+Both cover every task running in the pool at the moment of the call, including tasks other callers submitted.
+Tasks still waiting for a slot and tasks that have already settled are not included.
 
 ### Adjusting concurrency at runtime
 
@@ -108,25 +150,26 @@ Creates a pool that runs at most `concurrency` tasks concurrently.
 
 ### Methods
 
-| Method                                   | Returns                              | Description                                                                               |
-| ---------------------------------------- | ------------------------------------ | ----------------------------------------------------------------------------------------- |
-| `run(startPromise)`                      | `Promise<void>`                      | Runs the task when the pool has capacity. Resolves once the task has started.             |
-| `runAndWaitForReturnValue(startPromise)` | `Promise<R>`                         | Like `run()`, but resolves with the task's return value (and rejects if the task throws). |
-| `promiseAll()`                           | `Promise<T[]>`                       | `Promise.all()` over the currently running tasks.                                         |
-| `promiseAllSettled()`                    | `Promise<PromiseSettledResult<T>[]>` | `Promise.allSettled()` over the currently running tasks.                                  |
+| Method                                   | Returns                              | Description                                                                                          |
+| ---------------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------- |
+| `run(startPromise)`                      | `Promise<void>`                      | Starts the task when the pool has capacity. Resolves once the task has **started**, not finished.    |
+| `runAndWaitForReturnValue(startPromise)` | `Promise<R>`                         | Starts the task when the pool has capacity. Resolves with its return value, or rejects if it throws. |
+| `promiseAll()`                           | `Promise<T[]>`                       | `Promise.all()` over the currently running tasks.                                                    |
+| `promiseAllSettled()`                    | `Promise<PromiseSettledResult<T>[]>` | `Promise.allSettled()` over the currently running tasks.                                             |
 
 ### Properties
 
 | Property              | Type     | Description                                                                         |
 | --------------------- | -------- | ----------------------------------------------------------------------------------- |
 | `concurrency`         | `number` | The maximum number of concurrent tasks. Writable; increasing it wakes queued tasks. |
-| `workingPromiseCount` | `number` | The number of currently running tasks.                                              |
-| `queuedPromiseCount`  | `number` | The number of tasks that have been submitted but not yet finished.                  |
+| `workingPromiseCount` | `number` | The number of tasks that have started and not yet settled.                          |
+| `queuedPromiseCount`  | `number` | The number of tasks submitted and not yet settled, including running ones.          |
 
 ### Error handling
 
-A rejection from a task passed to `run()` is not reported through `run()`'s returned promise (which only signals that the task started), and it becomes an unhandled promise rejection unless something else observes it.
-`promiseAll()` and `promiseAllSettled()` cover only the tasks still running at the moment of the call — a task that has already settled is removed from the pool, so a later call cannot collect its rejection.
+`run()`'s returned promise rejects only when `startPromise` throws synchronously.
+A rejection of the task itself is reported only through `promiseAll()` or `promiseAllSettled()` called while the task is still running.
+Otherwise it becomes an unhandled promise rejection, which terminates Node.js by default.
 
 When you need task outcomes reliably, use `runAndWaitForReturnValue()` and collect the returned promises yourself:
 

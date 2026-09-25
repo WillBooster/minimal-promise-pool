@@ -37,7 +37,8 @@ export class PromisePool<T = unknown> {
 
   /**
    * The maximum number of tasks running at the same time.
-   * Lowering it does not stop running tasks; it only delays starting queued ones.
+   * Lowering it does not stop running tasks; it delays starting queued ones and may start a woken task after tasks
+   * submitted later.
    * Raising it starts queued tasks immediately up to the new limit.
    */
   get concurrency(): number {

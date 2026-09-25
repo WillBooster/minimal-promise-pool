@@ -14,7 +14,7 @@ For example, `new PromisePool(2)` runs at most two tasks at the same time and qu
 - **Minimal** — a single class with no runtime dependencies.
 - **Typed** — written in TypeScript with full type definitions.
 - **Dual package** — ships both ESM and CommonJS builds.
-- **FIFO scheduling** — queued tasks start in the order they were submitted, unless `concurrency` is lowered right after being raised.
+- **FIFO scheduling** — queued tasks start in the order they were submitted, unless `concurrency` is lowered while queued tasks are being woken up; a woken task that loses its slot goes behind later tasks.
 - **Adjustable concurrency** — change the limit at runtime; the pool adapts immediately.
 
 ## When to use

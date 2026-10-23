@@ -7,13 +7,19 @@
     "promise",
     "promise-pool"
   ],
+  "license": "Apache-2.0",
+  "author": "WillBooster Inc.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/WillBooster/minimal-promise-pool.git"
   },
-  "license": "Apache-2.0",
-  "author": "WillBooster Inc.",
+  "files": [
+    "dist/"
+  ],
   "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -21,12 +27,10 @@
       "import": "./dist/index.js"
     }
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist/"
-  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "build": "build-ts lib",
     "cleanup": "bun wb lint --fix --format",
@@ -46,24 +50,17 @@
     "@tsconfig/node-ts": "23.6.4",
     "@types/bun": "1.4.3",
     "@types/node": "26.6.5",
-    "@willbooster/oxfmt-config": "1.2.2",
     "@willbooster/oxlint-config": "1.4.9",
-    "@willbooster/wb": "22.27.0",
+    "@willbooster/wb": "22.29.1",
     "build-ts": "21.0.27",
     "conventional-changelog-conventionalcommits": "10.4.1",
     "lefthook": "2.2.2",
-    "oxfmt": "0.73.0",
     "oxlint": "1.88.0",
     "oxlint-tsgolint": "7.0.2004",
     "semantic-release": "25.0.9",
-    "sort-package-json": "4.1.0",
     "vitest": "5.0.5"
   },
   "engines": {
     "node": ">=24"
-  },
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
   }
 }
